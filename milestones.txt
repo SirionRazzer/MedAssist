@@ -1,0 +1,7 @@
+Milestones:
+
+29.4. First commit, project has all relevant users as collaborators
+
+13.5. First draft of the application, documented and published on the pages
+
+72h (3 days) before the presentation - main development work finished, further work is mostly refining
