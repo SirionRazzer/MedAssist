@@ -1,0 +1,63 @@
+<forms>
+	<form fid="1">
+		<name> </name>
+		<slides>
+			<slide sid="1" dependency="true">
+				<name> </name>
+				<questions>
+					<question qid="" type=""> <!--types: checkbox, radiobutton-->
+						<text></text> <!--vlastni text otazky-->
+						<options>
+							<option> <!--volby odpovede-->
+
+							</option>
+						</options>
+					</question>
+				</questions>
+				<!---->
+				<!--v predchozi otazce musela by zvolena takova hodnota, aby se slide zobrazil
+					napr. pokud ve slideru byl zvolen rozsah 60- nebo 60+
+				-->
+				<dep_answers>
+					<answer qid="" type="exact_value"> <!--qid dedi od qid otazky-->
+						<value></value> <!--obsahuje text-->
+					</answer>
+					<answer qid="" type="range"> <!--qid dedi od qid otazky-->
+						<min_val></min_val>
+						<max_val></max_val>
+					</answer>
+
+				</dep_answers>
+			</slide>
+
+			<slide sid="2" dependency="false">
+				<name> </name>
+				<questions>
+					<question qid="" type=""> <!--types: checkbox, radiobutton-->
+						<text></text> <!--vlastni text otazky-->
+						<options>
+							<option>
+
+							</option>
+						</options>
+					</question>
+					<!---->
+					<question qid="" type="range"> <!--range-->
+						<text></text>
+						<min_val></min_val>
+						<max_val></max_val>
+						<step></step> <!--krok slideru-->
+					</question>
+					<!---->
+					<question qid="" type="textbox"> <!--textbox-->
+						<text></text> <!--text otazky-->
+					</question>
+					<!---->
+					<question qid="" type="date"> <!--date-->
+						<text></text> <!--text otazky-->
+					</question>				
+				</questions>
+			</slide>
+		</slides>
+	</form>
+</forms>

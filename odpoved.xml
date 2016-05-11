@@ -1,0 +1,6 @@
+<answers fid="" pid=""> <!--fid je odkaz na formular, na ktery je vazana, pid je cislo pacienta-->
+	<slide sid="1">
+		<answer qid=""> <!--qid je odkaz na otazku-->
+		</answer>
+	</slide>
+</answers>
