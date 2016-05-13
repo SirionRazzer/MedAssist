@@ -1,0 +1,78 @@
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../company.xsd">
+	<form fid="1">
+		<name>Vstupni formular</name>
+		<slides>
+			<slide sid="1" dependency="true">
+				<name> </name>
+				<questions>
+					<question qid="1" type="checkbox"> <!--types: checkbox, radiobutton-->
+						<text>Jaky je duvod vasi navstevy?</text> <!--vlastni text otazky-->
+						<options>
+							<option> <!--volby odpovede-->
+                                                            Kontrolni vysetreni
+							</option>
+                                                        <option> <!--volby odpovede-->
+                                                            Nemoc
+							</option>
+                                                        <option> <!--volby odpovede-->
+                                                            Preventivni vysetreni
+							</option>
+                                                        <option> <!--volby odpovede-->
+                                                            Vyzvednuti receptu
+							</option>
+						</options>
+					</question>
+				</questions>
+				<!---->
+				<!--v predchozi otazce musela by zvolena takova hodnota, aby se slide zobrazil
+					napr. pokud ve slideru byl zvolen rozsah 60- nebo 60+
+				-->
+				<dep_answers>
+					<answer qid="2" type="exact_value"> <!--qid dedi od qid otazky-->
+                                            <values>
+                                                <value></value> <!--obsahuje text-->
+                                                <value></value>
+                                                <value></value>
+                                                <value></value>
+                                            </values> 
+					</answer>
+					<answer qid="2" type="range"> <!--qid dedi od qid otazky-->
+						<min_val></min_val>
+						<max_val></max_val>
+					</answer>
+
+				</dep_answers>
+			</slide>
+
+			<slide sid="2" dependency="false">
+				<name> </name>
+				<questions>
+					<question qid="2" type="radiobutton"> <!--types: checkbox, radiobutton-->
+						<text></text> <!--vlastni text otazky-->
+						<options>
+							<option>
+
+							</option>
+						</options>
+					</question>
+					<!---->
+					<question qid="3" type="range"> <!--range-->
+						<text></text>
+						<min_val>0</min_val>
+						<max_val>100</max_val>
+						<step>20</step> <!--krok slideru-->
+					</question>
+					<!---->
+					<question qid="4" type="textbox"> <!--textbox-->
+						<text></text> <!--text otazky-->
+					</question>
+					<!---->
+					<question qid="5" type="date"> <!--date-->
+						<text></text> <!--text otazky-->
+					</question>				
+				</questions>
+			</slide>
+		</slides>
+	</form>
+</forms>
