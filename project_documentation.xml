@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+    <info>
+        <title>Documentation of MedAssist project</title>
+        <publisher>
+            <publishername>Tomáš Soukal</publishername>
+        </publisher>
+        <edition>1.0</edition>
+    </info>
+    <part>
+        <title>About project</title>
+        <chapter>
+            <title>Introduction</title>
+            <sect1>
+                <title>Project task</title>
+                <para>Your task is to prepare the system for creating, presenting and evaluating simple questionnaires. Questionnaire ought to be easily fillable on a mobile device at the doctor's office. The doctor can manage these and evaluate them in the desktop client. The questionnaire consists of a few slides with questions based on conditional pass. Visual part can be fully generated (checkbox, combobox, slider, text).</para>            
+            </sect1>
+            <sect1>
+                <title>Subject</title>
+                <para>PB138 - Moderní značkovací jazyky</para>
+            </sect1>
+            <sect1>
+                <title>Authors</title>
+                <para>Júlia Sabanošová</para>
+                <para>Lenka Šmitalová</para>
+                <para>Petr Révay</para>
+                <para>Tomáš Soukal</para>                  
+            </sect1>   
+            <sect1>
+                <title>Supervisors</title>                   
+                <para>Marek Grác</para>
+                <para>Luděk Bártek</para>
+                <para>Tomáš Pitner</para>
+            </sect1>
+            <sect1>
+                <title>Used project environments</title>
+                <para>NetBeans</para>
+                <para>IntelliJIdea</para>
+            </sect1>         
+        </chapter>
+    </part>
+</book>
