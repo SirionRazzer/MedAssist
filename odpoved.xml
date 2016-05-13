@@ -1,6 +1,12 @@
-<answers fid="" pid=""> <!--fid je odkaz na formular, na ktery je vazana, pid je cislo pacienta-->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<answers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../OdpovediSchema.xsd" 
+         fid="1" pid="222"> <!--fid je odkaz na formular, na ktery je vazana, pid je cislo pacienta-->
 	<slide sid="1">
-		<answer qid=""> <!--qid je odkaz na otazku-->
+		<answer qid="6"><!--qid je odkaz na otazku-->
+                    <value></value>
+                    <value></value>
 		</answer>
 	</slide>
 </answers>
