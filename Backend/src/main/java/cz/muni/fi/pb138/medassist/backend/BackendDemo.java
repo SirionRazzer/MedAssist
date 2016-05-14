@@ -27,7 +27,7 @@ import org.xmldb.api.modules.XMLResource;
  *
  * @author Lenka
  */
-public class Backend {
+public class BackendDemo {
 
     private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
     private static final String URI = "xmldb:exist://localhost:8080/exist/xmlrpc/db";
@@ -71,28 +71,28 @@ public class Backend {
                 Random randomGenerator = new Random();
                 int formNumber = randomGenerator.nextInt(5) + 1;
                 for (int formIndex = 0; formIndex < formNumber; formIndex++) {
-                    Form form = new Form(formIndex + ". form");
+                    Form form = new Form((formIndex + 1) + ". form maven");
                     int fid = formsManager.createForm(form);
                     doc = formsManager.getDocument();
 
                     int slidesNumber = randomGenerator.nextInt(4) + 1;
                     SlidesManager slidesManager = new SlidesManager(doc);
                     for (int slideIndex = 0; slideIndex < 3; slideIndex++) {
-                        Slide slide = new Slide(slideIndex + ". slide", false, fid);
+                        Slide slide = new Slide((slideIndex + 1) + ". slide", false, fid);
                         int sid = slidesManager.createSlide(slide);
                         doc = slidesManager.getDocument();
 
                         int questionsNumber = randomGenerator.nextInt(10) + 1;
                         QuestionsManager questionsManager = new QuestionsManager(doc);
                         for (int questionIndex = 0; questionIndex < 3; questionIndex++) {
-                            Question question = new Question(questionIndex + ". question", QuestionType.RADIOBUTTON, sid);
+                            Question question = new Question((questionIndex + 1) + ". question", QuestionType.RADIOBUTTON, sid);
                             int qid = questionsManager.createQuestion(question);
                             doc = questionsManager.getDocument();
 
                             int optionsNumber = randomGenerator.nextInt(5) + 1;
                             OptionsManager optionsManager = new OptionsManager(doc);
-                            for (int i = 0; i < optionsNumber; i++) {
-                                Option option = new Option(i + ". option", qid);
+                            for (int optionIndex = 0; optionIndex < optionsNumber; optionIndex++) {
+                                Option option = new Option((optionIndex + 1) + ". option", qid);
                                 optionsManager.createOption(option);
                             }
                             doc = optionsManager.getDocument();
