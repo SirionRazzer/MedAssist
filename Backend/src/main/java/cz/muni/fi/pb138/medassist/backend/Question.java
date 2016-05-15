@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.medassist.backend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lenka
@@ -13,12 +16,11 @@ public class Question {
     
     private final String text;
     private final QuestionType type;
-    private final int slideID;
+    private final List<Option> options = new ArrayList<>();
     
-    public Question(String text, QuestionType type, int slideID) {
+    public Question(String text, QuestionType type) {
         this.text = text;
         this.type = type;
-        this.slideID = slideID;
     }
 
     public String getText() {
@@ -29,8 +31,15 @@ public class Question {
         return type;
     }
 
-    public int getSlideID() {
-        return slideID;
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void addOption(Option option) {
+        if ( option == null) {
+            throw new IllegalArgumentException("Argument option is null.");
+        }
+        options.add(option);
     }
     
 }

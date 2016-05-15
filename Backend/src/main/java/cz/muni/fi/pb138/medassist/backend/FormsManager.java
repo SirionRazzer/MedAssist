@@ -20,7 +20,7 @@ public class FormsManager {
     public FormsManager (Document document){
         this.document = document;
     }
-
+    
     public Document getDocument() {
         return document;
     }

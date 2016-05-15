@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.medassist.backend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lenka
@@ -12,12 +15,11 @@ package cz.muni.fi.pb138.medassist.backend;
 public class Slide {
     private final String name;
     private final boolean dependency;
-    private final int formID;
+    private final List<Question> questions = new ArrayList<>();
     
-    public Slide(String name, boolean dependency, int formID) {
+    public Slide(String name, boolean dependency) {
         this.name = name;
         this.dependency = dependency;
-        this.formID = formID;
     }
 
     public String getName() {
@@ -28,7 +30,14 @@ public class Slide {
         return dependency;
     }    
 
-    public int getFormID() {
-        return formID;
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void addQuestion(Question question) {
+        if ( question == null) {
+            throw new IllegalArgumentException("Argument question is null.");
+        }
+        questions.add(question);
     }
 }

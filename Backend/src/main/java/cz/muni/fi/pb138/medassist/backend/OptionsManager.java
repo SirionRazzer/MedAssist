@@ -25,8 +25,8 @@ public class OptionsManager {
         return document;
     }
     
-    public void createOption(Option option) {
-        Element options = getQuestionOptionsElement(option);
+    public void createOption(Option option, int questionID) {
+        Element options = getQuestionOptionsElement(option, questionID);
         
         Element newOption = document.createElement("option");
         newOption.appendChild(document.createTextNode(option.getText()));
@@ -39,13 +39,13 @@ public class OptionsManager {
      * @param option new slide we want to add to the form
      * @return Element options from the correct question
      */
-    private Element getQuestionOptionsElement(Option option) {
+    private Element getQuestionOptionsElement(Option option, int questionID) {
         Element options = null;
         NodeList forms = document.getElementsByTagName("question");
         int i = 0;
         while (forms.item(i).getAttributes().getNamedItem("qid") != null) {
             Attr fid = (Attr) forms.item(i).getAttributes().getNamedItem("qid");
-            if (Long.valueOf(fid.getValue()) == option.getQuestionID()) {
+            if (Long.valueOf(fid.getValue()) == questionID) {
                 options = (Element) ((Element) forms.item(i)).getElementsByTagName("options").item(0);
                 break;
             }

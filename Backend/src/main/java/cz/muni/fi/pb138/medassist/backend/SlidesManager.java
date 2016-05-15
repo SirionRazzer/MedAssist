@@ -30,8 +30,8 @@ public class SlidesManager {
         this.document = document;
     }
     
-    public int createSlide(Slide slide) {
-        Element slides = getFormSlidesElement(slide);
+    public int createSlide(Slide slide, int formID) {
+        Element slides = getFormSlidesElement(slide, formID);
         int sid = document.getElementsByTagName("slide").getLength() + 1;
         
         Element newSlide = document.createElement("slide");
@@ -54,13 +54,13 @@ public class SlidesManager {
      * @param slide new slide we want to add to the form
      * @return Element slides from the correct form
      */
-    private Element getFormSlidesElement(Slide slide) {
+    private Element getFormSlidesElement(Slide slide, int formID) {
         Element slides = null;
         NodeList forms = document.getElementsByTagName("form");
         int i = 0;
         while (forms.item(i).getAttributes().getNamedItem("fid") != null) {
             Attr fid = (Attr) forms.item(i).getAttributes().getNamedItem("fid");
-            if (Long.valueOf(fid.getValue()) == slide.getFormID()) {
+            if (Long.valueOf(fid.getValue()) == formID) {
                 slides = (Element) ((Element) forms.item(i)).getElementsByTagName("slides").item(0);
                 break;
             }

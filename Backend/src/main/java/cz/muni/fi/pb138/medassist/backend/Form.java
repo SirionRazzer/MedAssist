@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pb138.medassist.backend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lenka
@@ -12,6 +15,7 @@ package cz.muni.fi.pb138.medassist.backend;
 public class Form {
     
     private final String name;
+    private final List<Slide> slides = new ArrayList<>();
     
     public Form (String name) {
         this.name = name;
@@ -19,6 +23,17 @@ public class Form {
 
     public String getName() {
         return name;
+    }
+
+    public List<Slide> getSlides() {
+        return slides;
+    }
+    
+    public void addSlide(Slide slide) {
+        if ( slide == null) {
+            throw new IllegalArgumentException("Argument slide is null.");
+        }
+        slides.add(slide);
     }
     
 }

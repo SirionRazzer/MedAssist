@@ -25,8 +25,8 @@ public class QuestionsManager {
         return document;
     }
     
-    public int createQuestion(Question question) {
-        Element questions = getSlideQuestionsElement(question);
+    public int createQuestion(Question question, int slideID) {
+        Element questions = getSlideQuestionsElement(question, slideID);
         int qid = document.getElementsByTagName("question").getLength() + 1;
         
         Element newQuestion = document.createElement("question");
@@ -49,13 +49,13 @@ public class QuestionsManager {
      * @param question new slide we want to add to the form
      * @return Element questions from the correct slide
      */
-    private Element getSlideQuestionsElement(Question question) {
+    private Element getSlideQuestionsElement(Question question, int slideID) {
         Element questions = null;
         NodeList forms = document.getElementsByTagName("slide");
         int i = 0;
         while (forms.item(i).getAttributes().getNamedItem("sid") != null) {
-            Attr fid = (Attr) forms.item(i).getAttributes().getNamedItem("sid");
-            if (Long.valueOf(fid.getValue()) == question.getSlideID()) {
+            Attr sid = (Attr) forms.item(i).getAttributes().getNamedItem("sid");
+            if (Long.valueOf(sid.getValue()) == slideID) {
                 questions = (Element) ((Element) forms.item(i)).getElementsByTagName("questions").item(0);
                 break;
             }

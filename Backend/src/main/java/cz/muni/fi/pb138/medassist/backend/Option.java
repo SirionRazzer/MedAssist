@@ -11,16 +11,10 @@ package cz.muni.fi.pb138.medassist.backend;
  */
 public class Option {
     
-    private final int questionID;
     private final String text;
     
-    public Option(String text, int questionID) {
-        this.questionID = questionID;
+    public Option(String text) {
         this.text = text;
-    }
-
-    public int getQuestionID() {
-        return questionID;
     }
 
     public String getText() {
