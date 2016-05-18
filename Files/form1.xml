@@ -74,5 +74,25 @@
 				</questions>
 			</slide>
 		</slides>
+		
+		<tags>
+			<tag>
+				<name></name> <!--popisek tagu-->
+				<dep_answers>
+					<answer qid="2" type="exact_value"> <!--qid dedi od qid otazky-->
+                        <values>
+                            <value></value> <!--obsahuje text-->
+                            <value></value>
+                            <value></value>
+                            <value></value>
+                        </values> 
+					</answer>
+					<answer qid="2" type="range"> <!--qid dedi od qid otazky-->
+						<min_val></min_val>
+						<max_val></max_val>
+					</answer>
+				</dep_answers>
+			</tag>
+		</tags>
 	</form>
 </forms>
