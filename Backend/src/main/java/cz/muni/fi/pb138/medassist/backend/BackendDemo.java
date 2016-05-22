@@ -14,7 +14,7 @@ import org.xmldb.api.modules.XMLResource;
 public class BackendDemo {
 
     private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
-    private static final String URI = "xmldb:exist://localhost:8080/exist/xmlrpc/db";
+    private static final String URI = "xmldb:exist://localhost:8899/exist/xmlrpc/db";
     private static final String COLLECTION = "/MedAssist";
 
     /**
@@ -63,7 +63,7 @@ public class BackendDemo {
                     }
                     form.addSlide(slide);
                 }
-                medAssistManager.createFormForCurrentDocument(form);
+                medAssistManager.createNewForm(form);
             }
         } catch (XMLDBException | NullPointerException e) {
             System.err.println("XML:DB Exception occurred " + e.getMessage());

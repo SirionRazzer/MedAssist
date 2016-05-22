@@ -45,13 +45,19 @@ public class MedAssistManager {
     private final Collection collection;
     private final List<Integer> doctors = new ArrayList<>();
 
-    private int currentDoctorID;
+    //holds the currentDoctor ID
+    private int currentDoctor;
     private String currentFormFile;
     private Document currentDocument;
     private XMLResource currentResource;
 
-    public MedAssistManager(Collection collection)
-            throws Exception {
+    /**
+     * 
+     * @param collection
+     * @throws XMLDBException 
+     */
+    public MedAssistManager(Collection collection) 
+            throws XMLDBException {
         for (String resource : Arrays.asList(collection.listResources())) {
             int doctorID = Integer.valueOf(resource.split("_")[0]);
             doctors.add(doctorID);
@@ -59,37 +65,37 @@ public class MedAssistManager {
         this.collection = collection;
     }
 
-    public int getCurrentDoctorID() {
-        return currentDoctorID;
+    public Collection getCollection() {
+        return collection;
     }
 
-    public void setCurrentDoctorID(int currentDoctorID) 
+    /**
+     * 
+     * @return 
+     */
+    public int getCurrentDoctorID() {
+        return currentDoctor;
+    }
+
+    public Document getCurrentDocument() {
+        return currentDocument;
+    }
+
+    public void setCurrentDoctor(int currentDoctorID) 
             throws IOException, SAXException, XMLDBException, 
                    ParserConfigurationException {
         if (!doctors.contains(currentDoctorID)) {
             throw new IllegalArgumentException("Doctor with given ID does not exist.");
         }
-        this.currentDoctorID = currentDoctorID;
+        this.currentDoctor = currentDoctorID;
         setCurrentFormFile();
-    }
-
-    public String getCurrentFormFile() {
-        return currentFormFile;
     }
 
     private void setCurrentFormFile() 
             throws IOException, SAXException, XMLDBException, 
                    ParserConfigurationException {
-        this.currentFormFile = currentDoctorID + "_form.xml";
+        this.currentFormFile = currentDoctor + "_form.xml";
         setCurrentResource();
-    }
-
-    public Document getDocument() {
-        return currentDocument;
-    }
-
-    public XMLResource getCurrentResource() {
-        return currentResource;
     }
 
     private void setCurrentResource()
@@ -103,11 +109,12 @@ public class MedAssistManager {
 
     /**
      * Creates new doctorID_form.xml file and initialize root tag of this file.
-     * DoctorID is next unused integer from formFiles list. It changes class
-     * attributes -> sets currentDoctorID as generated doctorID -> sets
-     * currentFormFile as generated form file name doctorID_form.xml -> sets
-     * currentDocument as DOM Document instance of currentFormFile -> adds name
-     * of the new file to formFiles
+     * DoctorID is next unused integer from formFiles list. 
+     * It changes class attributes: 
+     *  -> sets currentDoctor as generated doctorID 
+     *  -> sets currentFormFile as generated form file name doctorID_form.xml 
+     *  -> sets currentDocument as DOM Document instance of currentFormFile 
+     *  -> adds name of the new file to formFiles
      *
      * @return returns new generated doctorID
      * @throws java.lang.Exception
@@ -138,15 +145,23 @@ public class MedAssistManager {
             currentResource = (XMLResource) collection.createResource(formFile, "XMLResource");
             currentResource.setContent(baos.toString());
             collection.storeResource(currentResource);
-            setCurrentDoctorID(doctorID);
+            setCurrentDoctor(doctorID);
 
         } catch (XMLDBException e) {
             System.err.println("XML:DB Exception occured " + e.getCause() + " " + e.getMessage());
         }
-        return currentDoctorID;
+        return currentDoctor;
     }
 
-    public void createFormForCurrentDocument(Form form) throws TransformerException {
+    /**
+     * Creates new form for the doctor, that is currently set (check currentDoctor).
+     * To change currentDoctor, use setCurrentDoctor(doctorID), where doctorID
+     * is id of the doctor we want to switch to.
+     * 
+     * @param form new form, that we want to create.
+     * @throws TransformerException 
+     */
+    public void createNewForm(Form form) throws TransformerException {
         if (currentDocument == null) {
             throw new NullPointerException("No current document is set within the MedAssistManager.");
         }
@@ -170,18 +185,18 @@ public class MedAssistManager {
             }
         }
         try {
-            currentResource.setContent(createStringFormFile(currentDocument));
+            currentResource.setContent(getCurrentDocumentAsString());
             collection.storeResource(currentResource);
         } catch (XMLDBException ex) {
             Logger.getLogger(MedAssistManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private static String createStringFormFile(Document doc)
+    public String getCurrentDocumentAsString()
             throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(doc);
+        DOMSource source = new DOMSource(currentDocument);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
