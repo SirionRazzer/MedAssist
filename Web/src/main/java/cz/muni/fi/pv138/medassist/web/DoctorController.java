@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pv138.medassist.web;
 
-import cz.muni.fi.pb138.medassist.backend.MedAssistManager;
+import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,19 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 /**
- *
+ * Controller for operations related to doctor.
  * @author Lenka
  */
 @WebServlet(name = "Doctor", urlPatterns = {"/Doctor/*"})
 public class DoctorController extends HttpServlet {
-
-    private static final Logger logger = LoggerFactory.getLogger(InitListener.class);
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -51,11 +47,11 @@ public class DoctorController extends HttpServlet {
     }
 
     /**
-     * Returns MedAssistManager variable that was set as attribute in InitListener class.
-     * @return MedAssistManager object for this context
+     * Returns MedAssistManagerImpl variable that was set as attribute in InitListener class.
+     * @return MedAssistManagerImpl object for this context
      */
-    private MedAssistManager getMedAssistManager() {
-        return (MedAssistManager) getServletContext().getAttribute("medAssistManager");
+    private MedAssistManagerImpl getMedAssistManager() {
+        return (MedAssistManagerImpl) getServletContext().getAttribute("medAssistManager");
     }
 
     /**
@@ -70,13 +66,13 @@ public class DoctorController extends HttpServlet {
     private void printForm1(HttpServletRequest request, HttpServletResponse response) 
             throws IOException, ServletException {
         try {
-            MedAssistManager manager = getMedAssistManager();
+            MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            String form1 = manager.getCurrentDocumentAsString();
+            String form1 = manager.convertCurrentDocumentToString();
             request.setAttribute("form1", form1);
             request.getRequestDispatcher("/WEB-INF/1_form.jsp").forward(request, response);
         } catch (XMLDBException | SAXException | ParserConfigurationException | TransformerException ex) {
-            logger.error("Could not connect to the database. (" + ex.getMessage() + ")");
+            System.err.println("Couldn't connect to the database.");
         }
 
     }

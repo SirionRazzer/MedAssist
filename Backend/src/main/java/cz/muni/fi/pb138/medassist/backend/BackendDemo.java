@@ -1,6 +1,19 @@
 package cz.muni.fi.pb138.medassist.backend;
 
-import java.util.Random;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
@@ -24,7 +37,7 @@ public class BackendDemo {
     public static void main(String[] args) throws Exception {
         Collection col = null;
         XMLResource res = null;
-        MedAssistManager medAssistManager = null;
+        MedAssistManagerImpl medAssistManager = null;
         try {
             Class cl = Class.forName(DRIVER);
             Database database = (Database) cl.newInstance();
@@ -39,32 +52,29 @@ public class BackendDemo {
                 System.exit(-1);
             }
 
-            medAssistManager = new MedAssistManager(col);
-            int doctorID = medAssistManager.createNewFormXML();
+            medAssistManager = new MedAssistManagerImpl(col);
             
-            Random randomGenerator = new Random();
-            int formNumber = randomGenerator.nextInt(5) + 1;
-            for (int formIndex = 0; formIndex < formNumber; formIndex++) {
-                Form form = new Form((formIndex + 1) + ". form maven");
+            //uncomment in case you want to create form for a new doctor
+            /*int doctorID = medAssistManager.createNewFormXML();
+            
+            
+            Document form = null;
+            File file = new File("src/main/resources/form.xml");
+            try (InputStream is = new FileInputStream(file)) {
+                DocumentBuilder builder = DocumentBuilderFactory
+                        .newInstance()
+                        .newDocumentBuilder();
+                if (is == null) {
+                    throw new NullPointerException("Empty document.");
+                } else {
+                    form = builder.parse(is);
+               }
 
-                int slidesNumber = randomGenerator.nextInt(4) + 1;
-                for (int slideIndex = 0; slideIndex < slidesNumber; slideIndex++) {
-                    Slide slide = new Slide((slideIndex + 1) + ". slide", false);
-
-                    int questionsNumber = randomGenerator.nextInt(10) + 1;
-                    for (int questionIndex = 0; questionIndex < questionsNumber; questionIndex++) {
-                        Question question = new Question((questionIndex + 1) + ". question", QuestionType.RADIOBUTTON);
-
-                        int optionsNumber = randomGenerator.nextInt(5) + 1;
-                        for (int optionIndex = 0; optionIndex < optionsNumber; optionIndex++) {
-                            question.addOption(new Option((optionIndex + 1) + ". option"));
-                        }
-                        slide.addQuestion(question);
-                    }
-                    form.addSlide(slide);
-                }
-                medAssistManager.createNewForm(form);
             }
+            
+            medAssistManager.createNewForm(form);
+            */
+
         } catch (XMLDBException | NullPointerException e) {
             System.err.println("XML:DB Exception occurred " + e.getMessage());
             e.printStackTrace(System.out);
@@ -76,5 +86,22 @@ public class BackendDemo {
                 medAssistManager.freeResource();
             }
         }
+    }
+    
+    private static String getDocumentAsString(Document doc)
+            throws TransformerException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        StreamResult result = new StreamResult(ps);
+
+        transformer.transform(source, result);
+
+        ps.flush();
+
+        return baos.toString();
     }
 }

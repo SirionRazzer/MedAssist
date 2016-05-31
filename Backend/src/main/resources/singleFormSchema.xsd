@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:element name="form">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="1"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="slides">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="slide" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="name" type="xs:string"/>
+                                        <xs:element name="questions" minOccurs="1">
+                                            <xs:complexType> 
+                                                <xs:sequence>
+                                                    <xs:element name="question" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="text" type="xs:string"/>
+                                                                <xs:element name="options" minOccurs="0" maxOccurs="1">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element name="option" type="xs:string" maxOccurs="unbounded"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element name="min_val" type="xs:integer" minOccurs="0"/>
+                                                                <xs:element name="max_val" type="xs:integer" minOccurs="0"/>
+                                                                <xs:element name="step" type="xs:integer" minOccurs="0"/>
+                                                            </xs:sequence>
+                                                            <xs:attribute name="qid" use="required">
+                                                                <xs:simpleType>
+                                                                    <xs:restriction base="xs:integer">
+                                                                        <xs:minExclusive value="0"/>
+                                                                    </xs:restriction>
+                                                                </xs:simpleType>
+                                                            </xs:attribute>
+                                                            <xs:attribute name="type" use="required">
+                                                                <xs:simpleType>
+                                                                    <xs:restriction base="xs:string">
+                                                                        <xs:enumeration value="checkbox"/>
+                                                                        <xs:enumeration value="radiobutton"/>
+                                                                        <xs:enumeration value="range"/>
+                                                                        <xs:enumeration value="textbox"/>
+                                                                        <xs:enumeration value="date"/>
+                                                                    </xs:restriction>
+                                                                </xs:simpleType>
+                                                            </xs:attribute>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                            <xs:unique name="UniqueQuestionKey">
+                                                <xs:selector xpath="question" /> 
+                                                <xs:field xpath="@qid" /> 
+                                            </xs:unique>
+                                        </xs:element>
+                                        <xs:element name="dep_answers" minOccurs="0" maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="answer" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:all>
+                                                                <xs:element name="values" minOccurs="0" maxOccurs="1">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                                                        </xs:sequence>  
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                        
+                                                                <xs:element name="min_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                                                                <xs:element name="max_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                                                            </xs:all>
+                                                            <xs:attribute name="type">
+                                                                <xs:simpleType>
+                                                                    <xs:restriction base="xs:string">
+                                                                        <xs:enumeration value="exact_value"/>
+                                                                        <xs:enumeration value="range"/>
+                                                                    </xs:restriction>
+                                                                </xs:simpleType>
+                                                            </xs:attribute>
+                                                            <xs:attribute name="qid"/>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>    
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="sid" use="required">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:integer">
+                                                <xs:minExclusive value="0"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="dependency">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:enumeration value="true"/>
+                                                <xs:enumeration value="false"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>  
+                                    </xs:attribute>    
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                    <xs:unique name="UniqueSlideKey">
+                        <xs:selector xpath="slide" /> 
+                        <xs:field xpath="@sid" /> 
+                    </xs:unique>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="fid" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

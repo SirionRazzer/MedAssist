@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pv138.medassist.web;
 
-import cz.muni.fi.pb138.medassist.backend.MedAssistManager;
+import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -33,14 +33,14 @@ public class InitListener implements ServletContextListener {
     private static final String USER = "admin";
     private static final String PASS = "admin";
 
-    private Collection col = null;
-    private MedAssistManager manager = null;
+    private Collection collection = null;
+    private MedAssistManagerImpl manager = null;
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
-            col = prepareCollection();
-            manager = new MedAssistManager(col);
+            collection = prepareCollection();
+            manager = new MedAssistManagerImpl(collection);
 
             ServletContext servletContext = sce.getServletContext();
             servletContext.setAttribute("medAssistManager", manager);
@@ -55,9 +55,9 @@ public class InitListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        if (col != null) {
+        if (collection != null) {
             try {
-                col.close();
+                collection.close();
             } catch (XMLDBException ex) {
                 logger.error(ex.getMessage());
             }
@@ -71,8 +71,23 @@ public class InitListener implements ServletContextListener {
         }
     }
 
+    /**
+     * Helper for connecting to the database.
+     * It connect to the database and collection is set as the given collection
+     * from the database (check COLLECTION constant)
+     * 
+     * @return Collection of the exist database
+     * @throws ClassNotFoundException if the class cannot be located 
+     * @throws InstantiationException if this Class represents an abstract 
+     *         class, an interface, an array class, a primitive type, or void; 
+     *         or if the class has no null constructor;
+     *         or if the instantiation fails for some other reason.
+     * @throws IllegalAccessException if the class or its null constructor 
+     *         is not accessible.
+     */
     private Collection prepareCollection()
             throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Collection col = null;
         try {
             Class cl = Class.forName(DRIVER);
             Database database = (Database) cl.newInstance();
