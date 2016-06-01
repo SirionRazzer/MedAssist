@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html" 
-              doctype-system="about:legacy-compat"
               encoding="UTF-8" 
-              indent="yes" />
+              indent="yes"/>
 
   <xsl:template match="/">
     <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
     <html>
         <head>
             <title>MedAssist - Pacient</title>
-            <meta http-equiv="Content-Style-Type" content="text/css"/>
+            <!--<meta http-equiv="Content-Style-Type" content="text/css"/>-->
             <link rel="stylesheet" href="company.css" type="text/css" media="screen"/> <!--Zmenit stylesheet-->
         </head>
         <body>
@@ -64,8 +63,8 @@
             <xsl:if test="@type='checkbox'">
                 <xsl:for-each select="options/option">
                     <div class="form-group">                    
-                    <input type="checkbox" id="chb"/>
-                    <label for="chb">
+                    <label>
+                        <input type="checkbox"/>
                         <xsl:value-of select="."/>                        
                     </label><br/>
                     </div>
@@ -75,8 +74,8 @@
             <xsl:if test="@type='radiobutton'">
                 <xsl:for-each select="options/option">
                     <div class="form-group">
-                    <input type="radio" name="rad" id="rd"/>
-                    <label for="rd">
+                    <label>
+                        <input type="radio" name="rad"/>                                     
                         <xsl:value-of select="."/>
                     </label><br/>
                     </div>
