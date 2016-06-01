@@ -50,34 +50,55 @@
                 </tr>
             </table>            
         </div>
-        <div clas="question-question"> <!--samotny text otazky-->
-            <p><xsl:value-of select="text"/></p>
-        </div>
         
-        <form>
-            <!--ALL POSSIBLE QUESTION'S TYPES-->
+        <form role="form">
+            
+            <!--QUESTION TEXT-->
+            
+            <div class="form-group"> <!--trida pro bootstrap podle prikladu z w3schools-->
+                <h2><xsl:value-of select="text"/></h2>
+            </div>
+                        
+            <!--ALL POSSIBLE QUESTION TYPES-->
+            
             <xsl:if test="@type='checkbox'">
                 <xsl:for-each select="options/option">
-                    <input type="checkbox"/><xsl:value-of select="."/><br/>
+                    <div class="form-group">                    
+                    <input type="checkbox" id="chb"/>
+                    <label for="chb">
+                        <xsl:value-of select="."/>                        
+                    </label><br/>
+                    </div>
                 </xsl:for-each>
             </xsl:if>
 
             <xsl:if test="@type='radiobutton'">
                 <xsl:for-each select="options/option">
-                    <input type="radio" name="rad"/><xsl:value-of select="."/><br/>
+                    <div class="form-group">
+                    <input type="radio" name="rad" id="rd"/>
+                    <label for="rd">
+                        <xsl:value-of select="."/>
+                    </label><br/>
+                    </div>
                 </xsl:for-each>
             </xsl:if>
 
-            <xsl:if test="@type='range'">                
-                <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>
+            <xsl:if test="@type='range'">
+                <div class="form-group">                
+                <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
+                </div>
             </xsl:if>
 
             <xsl:if test="@type='textbox'">                
+                <div class="form-group">
                 <input type="text"/>
+                </div>
             </xsl:if>
 
             <xsl:if test="@type='date'">
+                <div class="form-group">
                 <input type="date"/>
+                </div>
             </xsl:if>
         </form>
     </div>
