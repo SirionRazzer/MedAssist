@@ -31,7 +31,7 @@
                     <xsl:apply-templates select="node()/slides/slide"/>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Odeslat</button>
 
-                    <div class="panel-footer">
+                    <div class="center-block">
                         <p class="text-center">form by MedAssist</p>
                     </div>                    
                 </div>
