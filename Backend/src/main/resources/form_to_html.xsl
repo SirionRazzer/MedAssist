@@ -4,103 +4,108 @@
               encoding="UTF-8" 
               indent="yes"/>
 
-  <xsl:template match="/">
-    <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
-    <html>
-        <head>
-            <title>MedAssist - Pacient</title>
-            <!--<meta http-equiv="Content-Style-Type" content="text/css"/>-->
-            <link rel="stylesheet" href="company.css" type="text/css" media="screen"/> <!--Zmenit stylesheet-->
-        </head>
-        <body>
-            <div class="form-name"> <!--trida pro nazev formulare-->
-                <h1>
-                    <xsl:value-of select="form/name"/>                    
-                </h1>                
+    <xsl:template match="/">
+        <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>      
+        <html>
+            <head>
+                <xsl:text disable-output-escaping='yes'>&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;</xsl:text>
+                <xsl:text disable-output-escaping='yes'>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</xsl:text>            
+              
+                <title>MedAssist - Pacient</title> 
+                          
+                <!-- Bootstrap core CSS -->
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+                <!--TODO:
+                Custom styles for this template
+                -->                
+            </head>
+            <body role="document">
+                <div class="container">
+                    <div class="page-header">
+                        <h1><xsl:value-of select="form/name"/></h1>                        
+                    </div>
+
+
+                    <xsl:apply-templates select="node()/slides/slide"/>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Odeslat</button>
+
+                    <div class="panel-footer">
+                        <p class="text-center">form by MedAssist</p>
+                    </div>                    
+                </div>            
+            </body>
+        </html>
+    </xsl:template>
+
+    <xsl:template match="slide">
+        <div class="slide-wrapper"> <!--TODO: trida pro zabaleni jednoho slajdu-->
+            <div class="card-block">
+                <h2 class="card-title"><xsl:value-of select="name"/></h2>               
             </div>
-            <xsl:apply-templates select="node()/slides/slide"/>
-        </body>
-    </html>
-  </xsl:template>
-  
-  <xsl:template match="slide">
-      <div class="slide-wrapper"> <!--trida pro zabaleni jednoho slajdu-->
-          <div class="slide-header"> <!--trida pro zahlavi slajdu-->
-              <p><xsl:value-of select="@sid"/></p>
-              <p><xsl:value-of select="name"/></p>              
-          </div>
-          <xsl:apply-templates select="questions"/>       
-      </div>
-  </xsl:template>
-
-<xsl:template match="questions">
-    <div class="questions-wrapper"> <!--trida pro zabaleni otazek-->
-        <xsl:apply-templates select="question"/>
-    </div>
-</xsl:template>
-
-<xsl:template match="question">
-    <div class="question-wrapper"> <!--trida pro zabaleni jedne otazky-->
-        <div class="question-info"> <!--trida pro zabaleni info o otazce-->
-            <table>
-                <tr>
-                    <td><xsl:value-of select="@qid"/></td>
-                    <td><xsl:value-of select="@type"/></td>
-                </tr>
-            </table>            
+            <xsl:apply-templates select="questions"/>       
         </div>
-        
-        <form role="form">
-            
-            <!--QUESTION TEXT-->
-            
-            <div class="form-group"> <!--trida pro bootstrap podle prikladu z w3schools-->
-                <h2><xsl:value-of select="text"/></h2>
-            </div>
-                        
-            <!--ALL POSSIBLE QUESTION TYPES-->
-            
-            <xsl:if test="@type='checkbox'">
-                <xsl:for-each select="options/option">
-                    <div class="form-group">                    
-                    <label>
-                        <input type="checkbox"/>
-                        <xsl:value-of select="."/>                        
-                    </label><br/>
-                    </div>
-                </xsl:for-each>
-            </xsl:if>
+    </xsl:template>
 
-            <xsl:if test="@type='radiobutton'">
-                <xsl:for-each select="options/option">
+    <xsl:template match="questions">
+        <div class="form"> <!--TODO: trida pro zabaleni otazek-->
+            <xsl:apply-templates select="question"/>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="question">
+        <div class="card"> <!--trida pro zabaleni jedne otazky-->             
+
+                <!--QUESTION TEXT-->
+
+                
+                <h3 class="card-header"><xsl:value-of select="text"/></h3>
+                <div class="card-block">
+
+                <!--ALL POSSIBLE QUESTION TYPES-->
+
+                <xsl:if test="@type='checkbox'">
+                    <xsl:for-each select="options/option">
+                        <div class="form-group">                    
+                        <label>
+                            <input type="checkbox"/>
+                            <xsl:value-of select="."/>                        
+                        </label><br/>
+                        </div>
+                    </xsl:for-each>
+                </xsl:if>
+
+                <xsl:if test="@type='radiobutton'">
+                    <xsl:for-each select="options/option">
+                        <div class="form-group">
+                        <label>
+                            <input type="radio" name="rad"/>                                     
+                            <xsl:value-of select="."/>
+                        </label><br/>
+                        </div>
+                    </xsl:for-each>
+                </xsl:if>
+
+                <xsl:if test="@type='range'">
+                    <div class="form-group">                
+                    <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
+                    </div>
+                </xsl:if>
+
+                <xsl:if test="@type='textbox'">                
                     <div class="form-group">
-                    <label>
-                        <input type="radio" name="rad"/>                                     
-                        <xsl:value-of select="."/>
-                    </label><br/>
+                    <input type="text" class="form-control"/>
                     </div>
-                </xsl:for-each>
-            </xsl:if>
+                </xsl:if>
 
-            <xsl:if test="@type='range'">
-                <div class="form-group">                
-                <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
+                <xsl:if test="@type='date'">
+                    <div class="form-group">
+                    <input type="date"/>
+                    </div>
+                </xsl:if>
+                
                 </div>
-            </xsl:if>
-
-            <xsl:if test="@type='textbox'">                
-                <div class="form-group">
-                <input type="text"/>
-                </div>
-            </xsl:if>
-
-            <xsl:if test="@type='date'">
-                <div class="form-group">
-                <input type="date"/>
-                </div>
-            </xsl:if>
-        </form>
-    </div>
-</xsl:template>
+        </div>
+    </xsl:template>
 
 </xsl:stylesheet>
