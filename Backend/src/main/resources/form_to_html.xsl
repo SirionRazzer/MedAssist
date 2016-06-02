@@ -33,7 +33,7 @@
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Odeslat</button>
 
                         <div>
-                            <p align="right">form by MedAssist</p>
+                            <p>form by MedAssist</p>
                         </div>     
                     </div>               
                 </div>
