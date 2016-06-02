@@ -14,7 +14,8 @@
                 <title>MedAssist - Pacient</title> 
                           
                 <!-- Bootstrap core CSS -->
-                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+                <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>-->
+                <link href="bootstrap.min.css" rel="stylesheet"/>
 
                 <!--TODO:
                 Custom styles for this template
@@ -41,7 +42,7 @@
     </xsl:template>
 
     <xsl:template match="slide">
-        <div class="slide-wrapper"> <!--TODO: trida pro zabaleni jednoho slajdu-->
+        <div class="slide-wrapper"> <!--TODO-->
             <div class="card-block">
                 <h2 class="card-title"><xsl:value-of select="name"/></h2>               
             </div>
@@ -50,13 +51,13 @@
     </xsl:template>
 
     <xsl:template match="questions">
-        <div class="form"> <!--TODO: trida pro zabaleni otazek-->
+        <div class="form">
             <xsl:apply-templates select="question"/>
         </div>
     </xsl:template>
 
     <xsl:template match="question">
-        <div class="card"> <!--trida pro zabaleni jedne otazky-->             
+        <div class="card">           
 
                 <!--QUESTION TEXT-->
                 
