@@ -57,7 +57,6 @@
         <div class="card"> <!--trida pro zabaleni jedne otazky-->             
 
                 <!--QUESTION TEXT-->
-
                 
                 <h3 class="card-header"><xsl:value-of select="text"/></h3>
                 <div class="card-block">
@@ -76,10 +75,11 @@
                 </xsl:if>
 
                 <xsl:if test="@type='radiobutton'">
+                    <xsl:variable name="rID" select="generate-id(options)"/> <!--Variable used as ID for multiple radiogroups-->                   
                     <xsl:for-each select="options/option">
                         <div class="form-group">
                         <label>
-                            <input type="radio" name="rad"/>                                     
+                            <input type="radio" name="{$rID}"/>                                     
                             <xsl:value-of select="."/>
                         </label><br/>
                         </div>
@@ -93,9 +93,9 @@
                 </xsl:if>
 
                 <xsl:if test="@type='textbox'">                
-                    <div class="form-group">
-                    <input type="text" class="form-control"/>
-                    </div>
+                    <fieldset class="form-group">                            
+                        <textarea class="form-control" rows="3"></textarea>
+                    </fieldset>
                 </xsl:if>
 
                 <xsl:if test="@type='date'">
