@@ -10,3 +10,10 @@
 		</answer>
 	</slide>
 </answers>
+
+<!--
+    Korenovy element nastavit na <forms>
+    Potomci korenoveho elementu budou elementy <form>, ktere budou mit atribut FID
+    v elementu <form> budou elementy <answers> s atribtuem PID, ktery urcuje kdo dane odpovedi zadal
+    element answers uz kopiruje soucasnou strukturu odpovedi... 
+-->

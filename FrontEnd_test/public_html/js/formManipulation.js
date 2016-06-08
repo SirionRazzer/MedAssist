@@ -6,6 +6,13 @@ var currentSlide = null;
 var currentQuestion = null;
 var currentTag = null;
 
+createNewForm('vstupni form');
+addSlide('slide1', false);
+addQuestion(currentSlide, 'radiobutton', 'Jak se dnes mate?');
+addTag('odber krve');
+logXML();
+
+
 function logXML() {
     console.log(xmlDoc);
 }
@@ -66,7 +73,7 @@ function addTag(name) {
  * 
  * @param {string} name name of the slide
  * @param {boolean} dependency dependency parameter
- * @returns {void}
+ * @returns {node} slide node
  */
 function addSlide(name, dependency) {
     var slide = xmlDoc.createElement('slide');
@@ -83,6 +90,7 @@ function addSlide(name, dependency) {
     appendNameToElement(slide, name);
     slides.appendChild(slide);
 
+    setCurrentSlide(slide);
     return slide;
 }
 
@@ -97,8 +105,17 @@ function getSlide(x) {
 }
 
 function getSlideBySid(sid) {
-    var xpath = "/slide[sid=" + sid + "]";
-    return xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+    var slides = xmlDoc.getElementsByTagName('slide');
+    for (var i = 0; i < slides.length; i++) {
+        if (slides[i].getAttribute('sid') == sid) {
+            return slides[i];
+        }
+    }
+}
+
+function setCurrentSlide(slide) {
+    currentSlide = slide;
+    currentQuestion = null;
 }
 
 /**
@@ -124,8 +141,18 @@ function addQuestion(slide, type, text) {
     question.setAttribute('type', type);
 
     slide.appendChild(question);
+    currentQuestion = question;
 
     return question;
+}
+
+function getQuestionById(qid) {
+    var questions = xmlDoc.getElementsByTagName('question');
+    for (var i = 0; i < questions.length; i++) {
+        if (questions[i].getAttribute('qid') == qid) {
+            return questions[i];
+        }
+    }
 }
 
 function setOptions(question, options) {
@@ -154,9 +181,9 @@ function setRange(question, min, max, step) {
         var stepNode = xmlDoc.createElement('step');
         stepNode.appendChild(xmlDoc.createTextNode(step));
 
-        question.appendhChild(minNode);
+        question.appendChild(minNode);
         question.appendChild(maxNode);
-        question.appendChild(step);
+        question.appendChild(stepNode);
     }
 
     return question;
