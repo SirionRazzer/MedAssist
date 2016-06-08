@@ -27,11 +27,11 @@
                         <div class="page-header">
                             <h1><xsl:value-of select="form/name"/></h1>                        
                         </div>
-
-
                         <xsl:apply-templates select="node()/slides/slide"/>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Odeslat</button>
-
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="logXML()">Odeslat</button>
+                        
+                        <script src="createAnswerXML.js"></script>
+                        
                         <div>
                             <p>form by MedAssist</p>
                         </div>     
@@ -46,7 +46,7 @@
     <xsl:template match="slide">
         <div class="slide-wrapper"> <!--TODO-->
             <div class="card-block">
-                <h2 class="card-title"><xsl:value-of select="name"/></h2>               
+                <h2 class="card-title" id="{@sid}"><xsl:value-of select="name"/></h2>               
             </div>
             <xsl:apply-templates select="questions"/>       
         </div>
@@ -64,52 +64,52 @@
                 <!--QUESTION TEXT-->
                 
                 <h3 class="card-header"><xsl:value-of select="text"/></h3>
-                <div class="card-block">
+                <div class="card-block" id="{@qid}">
 
-                <!--ALL POSSIBLE QUESTION TYPES-->
+                    <!--ALL POSSIBLE QUESTION TYPES-->
 
-                <xsl:if test="@type='checkbox'">
-                    <xsl:for-each select="options/option">
-                        <div class="form-group">                    
-                        <label>
-                            <input type="checkbox"/>
-                            <xsl:value-of select="."/>                        
-                        </label><br/>
-                        </div>
-                    </xsl:for-each>
-                </xsl:if>
+                    <xsl:if test="@type='checkbox'">
+                        <xsl:for-each select="options/option">
+                            <div class="form-group">                    
+                            <label>
+                                <input type="checkbox"/>
+                                <xsl:value-of select="."/>                        
+                            </label><br/>
+                            </div>
+                        </xsl:for-each>
+                    </xsl:if>
 
-                <xsl:if test="@type='radiobutton'">
-                    <xsl:variable name="rID" select="generate-id(options)"/> <!--Variable used as ID for multiple radiogroups-->                   
-                    <xsl:for-each select="options/option">
+                    <xsl:if test="@type='radiobutton'">
+                        <xsl:variable name="rID" select="generate-id(options)"/> <!--Variable used as ID for multiple radiogroups-->                   
+                        <xsl:for-each select="options/option">
+                            <div class="form-group">
+                            <label>
+                                <input type="radio" name="{$rID}"/>                                     
+                                <xsl:value-of select="."/>
+                            </label><br/>
+                            </div>
+                        </xsl:for-each>
+                    </xsl:if>
+
+                    <xsl:if test="@type='range'">
                         <div class="form-group">
-                        <label>
-                            <input type="radio" name="{$rID}"/>                                     
-                            <xsl:value-of select="."/>
-                        </label><br/>
+                            <xsl:value-of select="min_val"/>
+                            <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
+                            <xsl:value-of select="max_val"/>
                         </div>
-                    </xsl:for-each>
-                </xsl:if>
+                    </xsl:if>
 
-                <xsl:if test="@type='range'">
-                    <div class="form-group">
-                        <xsl:value-of select="min_val"/><input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
-                        <xsl:value-of select="max_val"/>
-                    </div>
-                </xsl:if>
+                    <xsl:if test="@type='textbox'">                
+                        <fieldset class="form-group">                            
+                            <textarea class="form-control" rows="3"></textarea>
+                        </fieldset>
+                    </xsl:if>
 
-                <xsl:if test="@type='textbox'">                
-                    <fieldset class="form-group">                            
-                        <textarea class="form-control" rows="3"></textarea>
-                    </fieldset>
-                </xsl:if>
-
-                <xsl:if test="@type='date'">
-                    <div class="form-group">
-                    <input type="date"/>
-                    </div>
-                </xsl:if>
-                
+                    <xsl:if test="@type='date'">
+                        <div class="form-group">
+                        <input type="date"/>
+                        </div>
+                    </xsl:if>                
                 </div>
         </div>
     </xsl:template>
