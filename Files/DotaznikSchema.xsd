@@ -81,7 +81,6 @@
                                                                                     </xs:sequence>  
                                                                                 </xs:complexType>
                                                                             </xs:element>
-                                                                        
                                                                             <xs:element name="min_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
                                                                             <xs:element name="max_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
                                                                         </xs:all>
@@ -124,6 +123,50 @@
                                     <xs:field xpath="@sid" /> 
                                 </xs:unique>
                             </xs:element>
+                            <xs:element name="tags" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="tag" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                                    <xs:element name="dep_answers">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="answer" maxOccurs="unbounded">
+                                                                    <xs:complexType>
+                                                                        <xs:all>
+                                                                            <xs:element name="values" minOccurs="0" maxOccurs="1">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                                                                    </xs:sequence>  
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+                                                                            <xs:element name="min_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                                                                            <xs:element name="max_val" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                                                                        </xs:all>
+                                                                        <xs:attribute name="type">
+                                                                            <xs:simpleType>
+                                                                                <xs:restriction base="xs:string">
+                                                                                    <xs:enumeration value="exact_value"/>
+                                                                                    <xs:enumeration value="range"/>
+                                                                                </xs:restriction>
+                                                                            </xs:simpleType>
+                                                                        </xs:attribute>
+                                                                        <xs:attribute name="qid"/>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>           
                         </xs:sequence>
                         <xs:attribute name="fid" use="required">
                             <xs:simpleType>
@@ -132,6 +175,7 @@
                                 </xs:restriction>
                             </xs:simpleType>
                         </xs:attribute>
+                                                                
                     </xs:complexType>
                 </xs:element>
             </xs:all>
