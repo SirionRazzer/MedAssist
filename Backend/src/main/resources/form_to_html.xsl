@@ -70,10 +70,12 @@
 
                     <xsl:if test="@type='checkbox'">
                         <xsl:for-each select="options/option">
-                            <div class="form-group">                    
+                            <div class="form-group" type="checkbox">                    
                             <label>
                                 <input type="checkbox"/>
-                                <xsl:value-of select="."/>                        
+                                <p>
+                                    <xsl:value-of select="."/>
+                                </p>
                             </label><br/>
                             </div>
                         </xsl:for-each>
@@ -82,17 +84,19 @@
                     <xsl:if test="@type='radiobutton'">
                         <xsl:variable name="rID" select="generate-id(options)"/> <!--Variable used as ID for multiple radiogroups-->                   
                         <xsl:for-each select="options/option">
-                            <div class="form-group">
+                            <div class="form-group" type="radio">
                             <label>
-                                <input type="radio" name="{$rID}"/>                                     
-                                <xsl:value-of select="."/>
+                                <input type="radio" name="{$rID}"/>
+                                <p>                                     
+                                    <xsl:value-of select="."/>
+                                </p>
                             </label><br/>
                             </div>
                         </xsl:for-each>
                     </xsl:if>
 
                     <xsl:if test="@type='range'">
-                        <div class="form-group">
+                        <div class="form-group" type="range">
                             <xsl:value-of select="min_val"/>
                             <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
                             <xsl:value-of select="max_val"/>
@@ -100,13 +104,13 @@
                     </xsl:if>
 
                     <xsl:if test="@type='textbox'">                
-                        <fieldset class="form-group">                            
+                        <fieldset class="form-group" type="textbox">                            
                             <textarea class="form-control" rows="3"></textarea>
                         </fieldset>
                     </xsl:if>
 
                     <xsl:if test="@type='date'">
-                        <div class="form-group">
+                        <div class="form-group" type="date">
                         <input type="date"/>
                         </div>
                     </xsl:if>                
