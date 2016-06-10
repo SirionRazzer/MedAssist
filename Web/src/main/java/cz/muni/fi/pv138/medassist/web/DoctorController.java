@@ -40,6 +40,9 @@ public class DoctorController extends HttpServlet {
             case "/form1":
                 printForm1(request, response);
                 break;
+            case "/formCreate":
+                request.getRequestDispatcher("/WEB-INF/formCreate.html").forward(request, response);
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND,
                         "Unknown action: " + action);
