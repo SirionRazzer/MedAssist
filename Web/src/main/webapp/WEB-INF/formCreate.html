@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Form Creation tool</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--jQuery-->
+        <script src="js/jquery-1.12.4.min.js"></script>
+        <!--Boostrap-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <link href="css/global.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+
+        <!--add form dialog-->
+        <div class="modal fade" id="addFormDialog" tabindex="-1" role="dialog" aria-labelledby="add form dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Vytvoření formuláře</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Název formuláře</label>
+                            <input type="text" class="form-control" id="formName">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Vytvořit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--add slide dialog-->
+        <div class="modal fade" id="addSlideDialog" tabindex="-1" role="dialog" aria-labelledby="add slide dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Přidání slidu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Název slidu</label>
+                            <input type="text" class="form-control" id="slideName">
+                            <div class="checkbox">
+                                <label><input id="slideDependency" type="checkbox" value=""><strong>Podmíněný slide</strong></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Přidat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--add question dialog-->
+        <div class="modal fade" id="addQuestionDialog" tabindex="-1" role="dialog" aria-labelledby="add question dialog">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Přidání otázky</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Text otázky</label>
+                            <input type="text" class="form-control" id="questionText">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Přidat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--add range dialog-->
+        <div class="modal fade" id="addRangeDialog" tabindex="-1" role="dialog" aria-labelledby="add range dialog">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Přidání otázky s číselným rozsahem</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Text otázky</label>
+                            <input type="text" class="form-control" id="rangeText">
+                            <label>Minimální hodnota</label>
+                            <input type="text" class="form-control" id="rangeMin">
+                            <label>Maximální hodnota</label>
+                            <input type="text" class="form-control" id="rangeMax">
+                            <label>Range step</label>
+                            <input type="text" class="form-control" id="rangeStep">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Přidat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--add options dialog-->
+        <div class="modal fade" id="addOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="add options dialog">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Přidání možností k otázce</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control">
+                            <input type="text" class="form-control">
+                            <input type="text" class="form-control">
+                            <input type="text" class="form-control">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Přidat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--top control bar-->
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-sm-12">                    
+                    <div class="btn-group" role="group" aria-label="XML manipulation buttons">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addFormDialog">New form</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addSlideDialog">Add slide</button>
+                        <div id="addQuestionGroup" class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Add question <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#addQuestionDialog" data-toggle="modal" data-type="checkbox">Checkbox</a></li>
+                                <li><a href="#addQuestionDialog" data-toggle="modal" data-type="radiobutton">Radiobutton</a></li>
+                                <li><a href="#addQuestionDialog" data-toggle="modal" data-type="textbox">Text</a></li>
+                                <li><a href="#addRangeDialog" data-toggle="modal" data-type="range">Range</a></li>
+                                <li><a href="#addQuestionDialog" data-toggle="modal" data-type="date">Date</a></li>
+                            </ul>
+                        </div>                        
+                        <button id="logXML" type="button" class="btn btn-default">LOG XML</button>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--form container-->
+        <div id="form-container" class="container text-center">
+            <h3>"Název formuláře"</h3>
+        </div>
+
+        <!--current slide container-->
+        <div id="slide-container" class="container">
+        </div>
+
+        <!--slides thumbnails container-->
+        <div id="slides-thumbnails-container" class="container-fluid">            
+        </div>
+        <script src="js/formManipulation.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
