@@ -6,12 +6,11 @@
 package cz.muni.fi.pv138.medassist.web;
 
 import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
+import java.util.logging.Level;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
@@ -24,8 +23,6 @@ import org.xmldb.api.base.XMLDBException;
  */
 @WebListener
 public class InitListener implements ServletContextListener {
-
-    private static final Logger logger = LoggerFactory.getLogger(InitListener.class);
 
     private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
     private static final String URI = "xmldb:exist://localhost:8899/exist/xmlrpc/db";
@@ -48,9 +45,9 @@ public class InitListener implements ServletContextListener {
                 | ClassNotFoundException 
                 | InstantiationException 
                 | IllegalAccessException ex) {
-            logger.error("Problem occured while connecting to the database. (" + ex.getMessage() + ")");
+            java.util.logging.Logger.getLogger(InitListener.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1);
-        }
+        } 
     }
 
     @Override
@@ -59,14 +56,14 @@ public class InitListener implements ServletContextListener {
             try {
                 collection.close();
             } catch (XMLDBException ex) {
-                logger.error(ex.getMessage());
+                java.util.logging.Logger.getLogger(InitListener.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (manager != null) {
             try {
                 manager.freeResource();
             } catch (XMLDBException ex) {
-                logger.error(ex.getMessage());
+                java.util.logging.Logger.getLogger(InitListener.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -96,9 +93,9 @@ public class InitListener implements ServletContextListener {
 
             col = DatabaseManager.getCollection(URI + COLLECTION, USER, PASS);
         } catch (XMLDBException ex) {
-            logger.error("Could not connect to the database. (" + ex.getMessage() + ")");
+            java.util.logging.Logger.getLogger(InitListener.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1);
-        }
+        } 
 
         return col;
     }

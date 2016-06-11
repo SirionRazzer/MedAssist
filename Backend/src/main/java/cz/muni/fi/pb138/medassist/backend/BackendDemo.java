@@ -1,19 +1,14 @@
 package cz.muni.fi.pb138.medassist.backend;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
@@ -26,6 +21,7 @@ import org.xmldb.api.modules.XMLResource;
  */
 public class BackendDemo {
 
+    private static final String file = "src/main/resources/form.xml";
     private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
     private static final String URI = "xmldb:exist://localhost:8899/exist/xmlrpc/db";
     private static final String COLLECTION = "/MedAssist";
@@ -35,6 +31,16 @@ public class BackendDemo {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
+        try (InputStream is = 
+                new FileInputStream( 
+                    new File(file))) {
+            Document document = newDocumentInstance(is);
+            
+            String html = Utils.XSLTransform(document);
+            
+            System.out.println(html);
+        }
+        
         Collection col = null;
         XMLResource res = null;
         MedAssistManagerImpl medAssistManager = null;
@@ -53,27 +59,13 @@ public class BackendDemo {
             }
 
             medAssistManager = new MedAssistManagerImpl(col);
+            medAssistManager.setCurrentDoctor(1);
             
-            //uncomment in case you want to create form for a new doctor
-            /*int doctorID = medAssistManager.createNewFormXML();
+            String[][] forms = medAssistManager.findAllForms();
             
-            
-            Document form = null;
-            File file = new File("src/main/resources/form.xml");
-            try (InputStream is = new FileInputStream(file)) {
-                DocumentBuilder builder = DocumentBuilderFactory
-                        .newInstance()
-                        .newDocumentBuilder();
-                if (is == null) {
-                    throw new NullPointerException("Empty document.");
-                } else {
-                    form = builder.parse(is);
-               }
-
+            for (int i = 0;i < forms.length; i++) {
+                System.out.println(forms[i][0] + ": " + forms[i][1]);
             }
-            
-            medAssistManager.createNewForm(form);
-            */
 
         } catch (XMLDBException | NullPointerException e) {
             System.err.println("XML:DB Exception occurred " + e.getMessage());
@@ -88,20 +80,15 @@ public class BackendDemo {
         }
     }
     
-    private static String getDocumentAsString(Document doc)
-            throws TransformerException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(doc);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        StreamResult result = new StreamResult(ps);
-
-        transformer.transform(source, result);
-
-        ps.flush();
-
-        return baos.toString();
+    private static Document newDocumentInstance(InputStream is)
+            throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilder builder = DocumentBuilderFactory
+                .newInstance()
+                .newDocumentBuilder();
+        if (is == null) {
+            return builder.newDocument();
+        } else {
+            return builder.parse(is);
+        }
     }
 }

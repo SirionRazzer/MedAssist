@@ -6,6 +6,7 @@
 package cz.muni.fi.pv138.medassist.web;
 
 import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
+import cz.muni.fi.pb138.medassist.backend.Utils;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,8 +38,11 @@ public class DoctorController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getPathInfo();
         switch (action) {
-            case "/form1":
-                printForm1(request, response);
+            case "/printForm":
+                printForm(request, response);
+                break;
+            case "/listForms":
+                listForms(request, response);
                 break;
             case "/formCreate":
                 request.getRequestDispatcher("/WEB-INF/formCreate.html").forward(request, response);
@@ -66,17 +70,21 @@ public class DoctorController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws ServletException if a servlet-specific error occurs
      */
-    private void printForm1(HttpServletRequest request, HttpServletResponse response) 
+    private void printForm(HttpServletRequest request, HttpServletResponse response) 
             throws IOException, ServletException {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            String form1 = manager.convertCurrentDocumentToString();
-            request.setAttribute("form1", form1);
+            String form = manager.getFormAsHTML(1);
+            request.setAttribute("form", form);
             request.getRequestDispatcher("/WEB-INF/1_form.jsp").forward(request, response);
-        } catch (XMLDBException | SAXException | ParserConfigurationException | TransformerException ex) {
+        } catch (XMLDBException | SAXException | ParserConfigurationException ex) {
             System.err.println("Couldn't connect to the database.");
         }
 
+    }
+
+    private void listForms(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

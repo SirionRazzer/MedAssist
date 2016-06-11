@@ -5,10 +5,14 @@
  */
 package cz.muni.fi.pb138.medassist.backend;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+import org.xmldb.api.base.XMLDBException;
 
 /**
  * Interface for MedAssist application with needed operations.
@@ -35,4 +39,19 @@ public interface MedAssistManager {
      * @throws TransformerException 
      */
     public void createNewForm(Document form) throws TransformerException;
+    
+    /**
+     * Finds all forms for current doctor.
+     * @return two dimensional array containing id(first row) and name(second 
+     *         row) for each form.
+     */
+    public String[][] findAllForms();
+    
+    /**
+     * Gets form with given fid and transform it to HTML page
+     * @param fid ID of form we want to show
+     * @return string containing HTML page of given form
+     */
+    public String getFormAsHTML(int fid) 
+            throws ParserConfigurationException, SAXException, IOException, XMLDBException;
 }
