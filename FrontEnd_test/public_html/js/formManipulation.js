@@ -18,6 +18,13 @@ function logXML() {
 }
 
 //Form
+
+/**
+ * Creates new form element
+ * 
+ * @param {string} name form's name
+ * @returns {form} form element
+ */
 function createNewForm(name) {
     var xmlString = "<form></form>";
     var parser = new DOMParser();
@@ -55,15 +62,20 @@ function setFormName(name) {
 }
 
 // Tags
+/**
+ * Creates new tag
+ * 
+ * @param {string} name name/text of the tag
+ * @returns {tag} tag element
+ */
 function addTag(name) {
     if (form) {
         var tag = xmlDoc.createElement('tag');
         appendNameToElement(tag, name);
         tags.appendChild(tag);
+        currentTag = tag;
+        return tag;
     }
-    currentTag = tag;
-
-    return tag;
 }
 
 //Slides
@@ -104,6 +116,12 @@ function getSlide(x) {
     return xmlDoc.getElementsByTagName('slide')[x];
 }
 
+/**
+ * Returns slide by slide ID
+ * 
+ * @param {int} sid slide ID
+ * @returns {slide} slide element
+ */
 function getSlideBySid(sid) {
     var slides = xmlDoc.getElementsByTagName('slide');
     for (var i = 0; i < slides.length; i++) {
@@ -113,6 +131,12 @@ function getSlideBySid(sid) {
     }
 }
 
+/**
+ * Sets current slide 
+ * 
+ * @param {type} slide slide to be set as current
+ * @returns {void}
+ */
 function setCurrentSlide(slide) {
     currentSlide = slide;
     currentQuestion = null;
@@ -128,6 +152,15 @@ function getNumberOfSlides() {
 }
 
 //Questions
+
+/**
+ * Adds new question to slide
+ * 
+ * @param {slide} slide slide element, where question will be added
+ * @param {string} type question type 
+ * @param {string} text question text
+ * @returns {question} new question element
+ */
 function addQuestion(slide, type, text) {
     var question = xmlDoc.createElement('question');
 
@@ -146,6 +179,12 @@ function addQuestion(slide, type, text) {
     return question;
 }
 
+/**
+ * Returns question specified by ID
+ * 
+ * @param {int} qid question's ID
+ * @returns {question} question node with specified ID
+ */
 function getQuestionById(qid) {
     var questions = xmlDoc.getElementsByTagName('question');
     for (var i = 0; i < questions.length; i++) {
@@ -155,6 +194,13 @@ function getQuestionById(qid) {
     }
 }
 
+/**
+ * Sets options for specified question
+ * 
+ * @param {question} question question node
+ * @param {array} options options texts
+ * @returns {question} updated question node
+ */
 function setOptions(question, options) {
     if (question.getAttribute('type') === 'checkbox' || question.getAttribute('type') === 'radiobutton') {
         var optionsNode = xmlDoc.createElement('options');
@@ -170,6 +216,15 @@ function setOptions(question, options) {
     return question;
 }
 
+/**
+ * Sets range for range question
+ * 
+ * @param {question} question question node
+ * @param {type} min range minimum
+ * @param {type} max range maximum
+ * @param {type} step range step
+ * @returns {question} question node
+ */
 function setRange(question, min, max, step) {
     if (question.getAttribute('type') === 'range') {
         var minNode = xmlDoc.createElement('min_val');
@@ -189,11 +244,24 @@ function setRange(question, min, max, step) {
     return question;
 }
 
+/**
+ * Returns number of questions in form
+ *   
+ * @returns {int} number of question nodes
+ */
 function getNumberOfQuestions() {
     return xmlDoc.getElementsByTagName('question').length;
 }
 
 // Dependency answers
+/**
+ * Adds exact value dependency to node
+ * 
+ * @param {Node} parentNode parent node, where dependency will be added
+ * @param {int} qid question ID
+ * @param {array} values values to be set as dependency
+ * @returns {answer} answer node
+ */
 function addExactValueDependency(parentNode, qid, values) {
     var answer = xmlDoc.createElement('answer');
     answer.setAttribute('qid', qid);
@@ -213,6 +281,15 @@ function addExactValueDependency(parentNode, qid, values) {
     return answer;
 }
 
+/**
+ * Adds range value dependency to node
+ * 
+ * @param {Node} parentNode parent node, where dependency will be added
+ * @param {int} qid question ID
+ * @param {int} minValue minimum of dependency range
+ * @param {int} maxValue maximum of dependency range
+ * @returns {answer} answer node
+ */
 function addRangeDependency(parentNode, qid, minValue, maxValue) {
     var answer = xmlDoc.createElement('answer');
     answer.setAttribute('qid', qid);

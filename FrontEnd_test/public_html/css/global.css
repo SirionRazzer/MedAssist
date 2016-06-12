@@ -26,6 +26,10 @@ h1,h2,h3, .slide-thumbnail{
     overflow: auto;
 }
 
+.control-container{
+margin-top: 5px;
+}
+
 .slide-thumbnail{
     font-weight: 500;
     font-size: 20px;
@@ -44,4 +48,10 @@ h1,h2,h3, .slide-thumbnail{
 
 .slide-thumbnail:hover{
     border: 1px solid #209Ae6;
+}
+
+#dependencyBox{
+    position:fixed;
+    right: 5px;
+    top: 5px;
 }

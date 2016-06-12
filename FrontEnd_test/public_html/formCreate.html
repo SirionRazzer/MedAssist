@@ -142,15 +142,37 @@ and open the template in the editor.
             </div>
         </div>
 
+        <!--add tag dialog-->
+        <div class="modal fade" id="addTagDialog" tabindex="-1" role="dialog" aria-labelledby="add tag dialog">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Přidání tagu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Text tagu</label>
+                            <input type="text" class="form-control" id="tagText">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary submitDialog">Přidat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--top control bar-->
-        <div class="container-fluid">
+        <div class="container-fluid control-container">
             <div class="row text-center">
                 <div class="col-sm-12">                    
-                    <div class="btn-group" role="group" aria-label="XML manipulation buttons">
+                    <div class="btn-group control-buttons" role="group" aria-label="XML manipulation buttons">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addFormDialog">New form</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addSlideDialog">Add slide</button>
+                        <button type="button" class="btn btn-default disabled" data-toggle="modal" data-target="#addSlideDialog">Add slide</button>
                         <div id="addQuestionGroup" class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown">
                                 Add question <span class="caret"></span></button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#addQuestionDialog" data-toggle="modal" data-type="checkbox">Checkbox</a></li>
@@ -160,11 +182,26 @@ and open the template in the editor.
                                 <li><a href="#addQuestionDialog" data-toggle="modal" data-type="date">Date</a></li>
                             </ul>
                         </div>                        
-                        <button id="logXML" type="button" class="btn btn-default">LOG XML</button>                        
+                        <button type="button" class="btn btn-primary">Dokončit formulář</button>
                     </div>
+<!--                    <button id="logXML" type="button" class="btn btn-default">LOG XML</button>
+                    <button id="test" type="button" class="btn btn-default">Dependencies test</button>-->
                 </div>
             </div>
         </div>
+
+<!--        <div id="dependencyBox" class="panel panel-default">
+            <div class="panel-heading">
+                Dependencies
+            </div>
+            <div class="panel-body">
+                Přideje závislosti pomocí klikání na odpovědi jednotlivých otázek.
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary">Hotovo</button>
+                <button class="btn btn-default">Zrušit</button>                
+            </div>
+        </div>-->
 
         <!--form container-->
         <div id="form-container" class="container text-center">
