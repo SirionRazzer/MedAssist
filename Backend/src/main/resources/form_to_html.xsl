@@ -28,7 +28,7 @@
                             <h1><xsl:value-of select="form/name"/></h1>                        
                         </div>
                         <xsl:apply-templates select="node()/slides/slide"/>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="logXML()">Odeslat</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="createNewAnswer()">Odeslat</button>
                         
                         <script src="createAnswerXML.js"></script>
                         
@@ -96,10 +96,10 @@
                     </xsl:if>
 
                     <xsl:if test="@type='range'">
-                        <div class="form-group" type="range">
-                            <xsl:value-of select="min_val"/>
-                            <input type="range" min="{min_val}" max="{max_val}" step="{step}"/>                
-                            <xsl:value-of select="max_val"/>
+                        <div class="form-group" type="range">                            
+                            <input type="range" min="{min_val}" max="{max_val}" step="{step}" onchange="this.nextElementSibling.value = this.value"/>                          
+                            <input type="text" value="{(min_val + max_val) div 2}" oninput="this.previousElementSibling.value = this.value"/>                            
+                         
                         </div>
                     </xsl:if>
 
