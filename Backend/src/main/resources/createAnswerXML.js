@@ -7,15 +7,6 @@ var xmlDocStr = null;
  */
 var NUM_OF_CB = 1;
 
-
-
-
-createNewAnswer();
-logXML();
-
-
-
-
 /**
  * Log the output
  */
@@ -28,58 +19,75 @@ function logXML() {
  */
 function createNewAnswer() {  
     // create xml document with root node
-    var xmlString = "<slide></slide>";
+    var xmlString = "<answers></answers>";
     var parser = new DOMParser();
     xmlDoc = parser.parseFromString(xmlString, "text/xml");
         
     // add attribute to the slide element
-    var elements = xmlDoc.getElementsByTagName("slide");
-    var formSid = document.getElementsByTagName("h2")[0].getAttribute("id");
-    var attr = xmlDoc.createAttribute("sid");
-    attr.value = formSid;
-    elements[0].setAttributeNode(attr);
+    var elements = xmlDoc.getElementsByTagName("answers");
     
-    addAnswers();
+    var slides = document.getElementsByTagName("h2");
     
+    //for each slide create slide element
+    for (var i = 0; i < slides.length; i++) {
+        var slideId = document.getElementsByTagName("h2")[i].getAttribute("id");
+        var slideElem = xmlDoc.createElement("slide");
+        var slideAttr = xmlDoc.createAttribute("sid");
+        slideAttr.value = slideId;
+        elements[0].appendChild(slideElem);
+        var x = xmlDoc.getElementsByTagName("slide");
+        x[i].setAttribute("sid", slideAttr.value);
+
+        //add answers for this slide
+        addAnswers(slideElem, i);
+    }
+
     // convert xml to string
     var serializer = new XMLSerializer();
     xmlDocStr = serializer.serializeToString(xmlDoc);
+    logXML();
 }
 
 /**
- * Adds all answers to the xml target
+ * Add answers for current slide
+ * @param {type} slideElem is xml element for which we will add answers
+ * @param {type} i is number of current slide we want to read from
  */
-function addAnswers() {
-    var numOfQuestions = document.getElementsByClassName("card-block").length;
-    var elements = xmlDoc.getElementsByTagName("slide"); // maybe redundant?
-    console.log("Number of questions:", numOfQuestions - NUM_OF_CB);
-    
-    //cycle over all questions in form
-    var tmpQuestion = document.getElementsByClassName("card-block");
-    for (var i = 0; i < numOfQuestions - NUM_OF_CB; i++) {
+function addAnswers(slideElem, i) {
+    //locate all slides
+    var slides = document.getElementsByClassName("slide-wrapper");
+    //get questions from current slide
+    var questions = slides[i].getElementsByClassName("card-block");
+
+    for (var i = 0; i < questions.length - NUM_OF_CB; i++) {
         var answerElem = xmlDoc.createElement("answer");
-        elements[0].appendChild(answerElem);
-        var x = xmlDoc.getElementsByTagName('answer');
-        x[i].setAttribute("qid", tmpQuestion[i+1].getAttribute("id"));
-        
-        addValues(answerElem, tmpQuestion[i+1], i);     
-    }
+        slideElem.appendChild(answerElem);
+        var x = slideElem.getElementsByTagName('answer');
+        x[i].setAttribute("qid", questions[i+1].getAttribute("id"));
+        addValues(answerElem, questions[i+1], i);
+    }   
 }
 
+/**
+ * Add value element to the answerElem
+ * @param answerElem is target answer element where the values will be stored
+ * @param text is text node (!) which will be added to the answer element
+ */
 function addValue(answerElem, text) {
     var value = xmlDoc.createElement('value');
     value.appendChild(text);
     answerElem.appendChild(value);
 }
 
-function addValues(answerElem, question, i) {
+/**
+ * Add all answers for the current question to the answerElem
+ * @param answerElem is the element where the values will be stored
+ * @param question is the question from which we want to get answer values
+ */
+function addValues(answerElem, question) {
     var values = question.getElementsByClassName("form-group");
 
-    //start_debug
     var type = values[0].getAttribute("type");
-    var text = xmlDoc.createTextNode(type);
-    addValue(answerElem, text);
-    //end_debug
     
     switch (type) {
         case "checkbox": case "radio":
@@ -92,17 +100,16 @@ function addValues(answerElem, question, i) {
             }
             break;
         case "textbox":
-            //maybe doesn't work
             var text = xmlDoc.createTextNode(question.getElementsByTagName("textarea")[0].value);
             addValue(answerElem, text);
             break;
         case "date":
-            //var text = xmlDoc.createTextNode(question.getElementsByTagName("date").value);
-            //addValue(answerElem, text); 
-            //TODO
+            var text = xmlDoc.createTextNode(question.getElementsByTagName("input")[0].value);
+            addValue(answerElem, text); 
             break;
         case "range":
-            //TODO
+            var text = xmlDoc.createTextNode(question.getElementsByTagName("input")[0].value);
+            addValue(answerElem, text); 
             break;
         default:
             console.log("ERROR: Unknown type of question!");
