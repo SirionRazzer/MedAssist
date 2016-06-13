@@ -22,65 +22,8 @@
       <p>AUTHORS: Tomáš Soukal, Petr Révay, Júlia Sabanošová, Lenka Šmitalová</p>
 
 <h1>
-<a id="this-is-the-app-concept" class="anchor" href="#this-is-the-app-concept" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>This is the app concept</h1>
+<a id="this-is-the-app-concept" class="anchor" href="#this-is-the-app-concept" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is the project current state?</h1>
 
-<p>We have decided to use popular MVC (Model-View-Controller) concept. On the database layer we will use NoSQL eXist-db database where the forms will be stored. Controller layer will be implemented in Java and View layer in HTML5 &amp; JavaScript.</p>
-
-<h2>
-<a id="database-model-layer" class="anchor" href="#database-model-layer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database model layer</h2>
-
-<h3>
-<a id="forms" class="anchor" href="#forms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Forms</h3>
-
-<p>Please check "formular.xml" file. This file represents basic structure for form templates. </p>
-
-<ul>
-<li>Forms have unique IDs (fid attribute)</li>
-<li>Name of the form</li>
-</ul>
-
-<p>Every form consists of slides with questions. There are two types of slides. Independent slides are are those the patient will always fill. On the other hand the dependent ones will be presented only if they would be needed (i.e. slide with "Are you women?" Answer "Yes" then slide with "Are you pregnant?" will be displayed)</p>
-
-<h3>
-<a id="questions" class="anchor" href="#questions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Questions</h3>
-
-<p><em>In the dependent slide</em></p>
-
-<p>Independent question types:</p>
-
-<ul>
-<li>checkbox</li>
-<li>radiobutton</li>
-</ul>
-
-<p>Dependent question types (Based on previous answer, check dep_answers element)</p>
-
-<ul>
-<li>exact value - used for any value or date (this decision was made because Mozilla doesn't support HTML5 element for date picking)</li>
-<li>range</li>
-</ul>
-
-<p><em>In the independent slide</em></p>
-
-<ul>
-<li>checkbox</li>
-<li>radiobutton</li>
-<li>range</li>
-<li>textbox</li>
-<li>date</li>
-</ul>
-
-<h2>
-<a id="view" class="anchor" href="#view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>View</h2>
-
-<p>HTML5 and JavaScript. Answers will be stored for each slide (check please "odpoved.xml" file) - this way we can later reconstruct a evaluate answers in the evaluation part of the app.</p>
-
-<p>Logging in will be simple - IDs or logins, no further security improvements planned.</p>
-
-<h2>
-<a id="controller" class="anchor" href="#controller" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Controller</h2>
-
-<p>Handling the data and XSL transformations will be implemented in Java v.8. First part will handle with the database (updating, evaluating). Second part will be connectors for View layer.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/SirionRazzer/MedAssist">Medassist</a> is maintained by <a href="https://github.com/SirionRazzer">SirionRazzer</a>.</span>
