@@ -61,7 +61,14 @@ $(document).ready(function () {
     });
 
     $("#finishForm").on('click', function () {
-        $.post('doctor/createForm', {form: xmlDoc});
+//        $.post('doctor/createForm', {form: xmlDoc});
+        $.ajax({
+            method: "POST",
+            url: "Doctor/createForm",
+            data: {
+                form: xmlDoc
+            }
+        });
     });
 
     $("#logXML").on('click', function () {
