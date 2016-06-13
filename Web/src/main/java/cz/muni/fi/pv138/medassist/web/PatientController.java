@@ -28,7 +28,7 @@ import org.xmldb.api.base.XMLDBException;
 @WebServlet(name = "Patient", urlPatterns = {"/Patient/*"})
 public class PatientController extends HttpServlet {
 
-    private static final String xsl = "/WEB-INF/form_to_html.xsl";
+    private static final String xsl = "/WEB-INF/XSL-form/form_to_html.xsl";
 
     /**
      * Handles the HTTP <code>GET</code> method.

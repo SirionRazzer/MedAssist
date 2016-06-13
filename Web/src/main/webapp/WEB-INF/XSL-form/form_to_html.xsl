@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:output method="xml" 
+  <xsl:output method="html" 
               encoding="UTF-8" 
               indent="yes"/>
 
@@ -25,7 +25,13 @@
                 <div class="container">
                     <div class="bg-white">
                         <div class="page-header">
-                            <h1><xsl:value-of select="form/name"/></h1>                        
+                            <h1><xsl:value-of select="form/name"/></h1>
+                            <p>číslo formuláře:</p>
+                            <h4>
+                                <xsl:value-of select="form/@fid"/>
+                            </h4>
+                            <p>zadejte svoje ID:</p>
+                                <input type="text" class="form-control"/>                        
                         </div>
                         <xsl:apply-templates select="node()/slides/slide"/>
                         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="createNewAnswer()">Odeslat</button>
@@ -98,7 +104,8 @@
                     <xsl:if test="@type='range'">
                         <div class="form-group" type="range">                            
                             <input type="range" min="{min_val}" max="{max_val}" step="{step}" onchange="this.nextElementSibling.value = this.value"/>                          
-                            <input type="text" value="{(min_val + max_val) div 2}" oninput="this.previousElementSibling.value = this.value"/>                            
+                            
+                            <input type="text" class="form-control" value="{(min_val + max_val) div 2}" oninput="this.previousElementSibling.value = this.value"/>                            
                          
                         </div>
                     </xsl:if>
@@ -111,7 +118,7 @@
 
                     <xsl:if test="@type='date'">
                         <div class="form-group" type="date">
-                        <input type="date"/>
+                        <input type="date" class="form-control"/>
                         </div>
                     </xsl:if>                
                 </div>
