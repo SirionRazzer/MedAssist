@@ -21,10 +21,17 @@ function createNewAnswer() {
     // create xml document with root node
     var xmlString = "<answers></answers>";
     var parser = new DOMParser();
-    xmlDoc = parser.parseFromString(xmlString, "text/xml");
-        
-    // add attribute to the slide element
+    xmlDoc = parser.parseFromString(xmlString, "text/xml");     
+   
     var elements = xmlDoc.getElementsByTagName("answers");
+
+    //add attribute form ID to the answers element
+    var fid = document.getElementsByTagName("h4")[0].childNodes[0].nodeValue;
+    elements[0].setAttribute("fid", fid);    
+     
+    //add attribute person ID to the answers element
+    var pid = document.getElementsByTagName("input")[0].value;
+    elements[0].setAttribute("pid", pid);
     
     var slides = document.getElementsByTagName("h2");
     

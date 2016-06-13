@@ -25,7 +25,13 @@
                 <div class="container">
                     <div class="bg-white">
                         <div class="page-header">
-                            <h1><xsl:value-of select="form/name"/></h1>                        
+                            <h1><xsl:value-of select="form/name"/></h1>
+                            <p>číslo formuláře:</p>
+                            <h4>
+                                <xsl:value-of select="form/@fid"/>
+                            </h4>
+                            <p>zadejte svoje ID:</p>
+                                <input type="text" class="form-control"/>                        
                         </div>
                         <xsl:apply-templates select="node()/slides/slide"/>
                         <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="createNewAnswer()">Odeslat</button>
