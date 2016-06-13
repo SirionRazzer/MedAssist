@@ -10,18 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
@@ -33,8 +31,6 @@ import org.xmldb.api.base.XMLDBException;
  */
 public class Utils {
     
-    private static final String xsl = "src/main/resources/form_to_html.xsl";
-
     /**
      * Method creating DOM Document instance from given input stream.
      * In case given input stream is null, it creates instance of blank document
@@ -89,19 +85,19 @@ public class Utils {
      * Method that transforms given DOM document form into HTML page.
      * The transformation is defined by XSL file.
      * @param form document, we want to transform
+     * @param xsl file defining the transformation
      * @return string containing HTML page as plain text or null in case a problem occurs
      * @throws org.xmldb.api.base.XMLDBException
      */
-    public static String XSLTransform(Document form) throws XMLDBException {
-        try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer xsltProc = transformerFactory.newTransformer(
-                    new StreamSource(new File(xsl)));
+    public static String XSLTransform(Document form, StreamSource xsl) 
+            throws XMLDBException {
+        try (
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PrintStream ps = new PrintStream(baos)){
+            TransformerFactory transformerFactory = TransformerFactoryImpl.newInstance();
+            Transformer xsltProc = transformerFactory.newTransformer(xsl);
             
             DOMSource source = new DOMSource(form);
-            
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream ps = new PrintStream(baos);
             StreamResult result = new StreamResult(ps);
             
             xsltProc.transform(source, result);
@@ -113,7 +109,7 @@ public class Utils {
             ps.flush();
             
             return baos.toString();
-        } catch (TransformerException ex) {
+        } catch (TransformerException | IOException ex) {
             throw new XMLDBException();
         }
     }

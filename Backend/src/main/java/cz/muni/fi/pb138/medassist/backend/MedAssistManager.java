@@ -5,11 +5,13 @@
  */
 package cz.muni.fi.pb138.medassist.backend;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
@@ -48,10 +50,15 @@ public interface MedAssistManager {
     public String[][] findAllForms();
     
     /**
-     * Gets form with given fid and transform it to HTML page
+     * Gets form with given fid and transform it to HTML page using XSL stylesheet
      * @param fid ID of form we want to show
+     * @param xsl stream source of the file that contains XSLT definition
      * @return string containing HTML page of given form
+     * @throws javax.xml.parsers.ParserConfigurationException
+     * @throws org.xml.sax.SAXException
+     * @throws java.io.IOException
+     * @throws org.xmldb.api.base.XMLDBException
      */
-    public String getFormAsHTML(int fid) 
+    public String getFormAsHTML(int fid, StreamSource xsl) 
             throws ParserConfigurationException, SAXException, IOException, XMLDBException;
 }

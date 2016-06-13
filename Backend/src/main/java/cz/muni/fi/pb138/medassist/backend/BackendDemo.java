@@ -7,6 +7,7 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
@@ -25,22 +26,13 @@ public class BackendDemo {
     private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
     private static final String URI = "xmldb:exist://localhost:8899/exist/xmlrpc/db";
     private static final String COLLECTION = "/MedAssist";
+    private static final String xsl = "src/main/resources/form_to_html.xsl";
 
     /**
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        try (InputStream is = 
-                new FileInputStream( 
-                    new File(file))) {
-            Document document = newDocumentInstance(is);
-            
-            String html = Utils.XSLTransform(document);
-            
-            System.out.println(html);
-        }
-        
         Collection col = null;
         XMLResource res = null;
         MedAssistManagerImpl medAssistManager = null;
@@ -60,10 +52,16 @@ public class BackendDemo {
 
             medAssistManager = new MedAssistManagerImpl(col);
             medAssistManager.setCurrentDoctor(1);
-            
+
+            StreamSource xslFile = new StreamSource(new File(xsl));
+
+            String html = medAssistManager.getFormAsHTML(1, xslFile);
+
+            System.out.println(html);
+
             String[][] forms = medAssistManager.findAllForms();
-            
-            for (int i = 0;i < forms.length; i++) {
+
+            for (int i = 0; i < forms.length; i++) {
                 System.out.println(forms[i][0] + ": " + forms[i][1]);
             }
 
@@ -79,7 +77,7 @@ public class BackendDemo {
             }
         }
     }
-    
+
     private static Document newDocumentInstance(InputStream is)
             throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder builder = DocumentBuilderFactory

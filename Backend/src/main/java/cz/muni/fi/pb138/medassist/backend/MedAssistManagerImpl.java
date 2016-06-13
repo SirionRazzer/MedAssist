@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import org.exist.xmldb.EXistResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -231,7 +232,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
     }
 
     @Override
-    public String getFormAsHTML(int fid)
+    public String getFormAsHTML(int fid, StreamSource xsl)
             throws ParserConfigurationException, SAXException, IOException, XMLDBException {
         Document document = Utils.newDocumentInstance(null);
         String result = null;
@@ -251,7 +252,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
             Document form = Utils.newDocumentInstance(
                     new ByteArrayInputStream(formFromResource.getBytes(StandardCharsets.UTF_8)));
             
-            result = Utils.XSLTransform(form);
+            result = Utils.XSLTransform(form, xsl);
             
             try {
                 ((EXistResource) res).freeResources();
