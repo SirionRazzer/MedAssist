@@ -6,18 +6,18 @@
 package cz.muni.fi.pv138.medassist.web;
 
 import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
@@ -27,8 +27,7 @@ import org.xmldb.api.base.XMLDBException;
  */
 @WebServlet(name = "Patient", urlPatterns = {"/Patient/*"})
 public class PatientController extends HttpServlet {
-    
-    //private static final String xsl = "src/main/resources/form_to_html.xsl";
+
     private static final String xsl = "/WEB-INF/form_to_html.xsl";
 
     /**
@@ -48,6 +47,11 @@ public class PatientController extends HttpServlet {
                 listForms(request, response);
                 break;
             default:
+                if (action.matches("/printForm/[0-9]+$")) {
+                    String[] parts = action.split("/");
+                    int fid = Integer.valueOf(parts[parts.length - 1]);
+                    printForm(request, response, fid);
+                }
                 response.sendError(HttpServletResponse.SC_NOT_FOUND,
                         "Unknown action: " + action);
         }
@@ -66,9 +70,6 @@ public class PatientController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getPathInfo();
         switch (action) {
-            case "/printForm/*":
-                printForm(request, response);
-                break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND,
                         "Unknown action: " + action);
@@ -76,7 +77,9 @@ public class PatientController extends HttpServlet {
     }
 
     /**
-     * Returns MedAssistManagerImpl variable that was set as attribute in InitListener class.
+     * Returns MedAssistManagerImpl variable that was set as attribute in
+     * InitListener class.
+     *
      * @return MedAssistManagerImpl object for this context
      */
     private MedAssistManagerImpl getMedAssistManager() {
@@ -84,21 +87,23 @@ public class PatientController extends HttpServlet {
     }
 
     /**
-     * Test method for testing the collaboration between this application,
-     * backend and database.
-     * 
+     * Method showing requested form using XSL transformation
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws IOException if an I/O error occurs
      * @throws ServletException if a servlet-specific error occurs
      */
-    private void printForm(HttpServletRequest request, HttpServletResponse response) 
+    private void printForm(HttpServletRequest request, HttpServletResponse response, int fid)
             throws IOException, ServletException {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            StreamSource xslFileSource = new StreamSource(new File(xsl));
-            String form = manager.getFormAsHTML(1, xslFileSource);  //first attribute is fid of the form we want
+
+            ServletContext sc = request.getSession().getServletContext();
+            InputStream xslInputStream = sc.getResourceAsStream(xsl);
+
+            String form = manager.getFormAsHTML(fid, xslInputStream);  //first attribute is fid of the form we want
             request.setAttribute("form", form);
             request.getRequestDispatcher("/WEB-INF/1_form.jsp").forward(request, response);
         } catch (XMLDBException | SAXException | ParserConfigurationException ex) {
@@ -107,7 +112,16 @@ public class PatientController extends HttpServlet {
 
     }
 
-    private void listForms(HttpServletRequest request, HttpServletResponse response) 
+    /**
+     * Method for creating list of arrays of all the forms. It contains id of
+     * the form and name of the form for each form.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws IOException if an I/O error occurs
+     * @throws ServletException if a servlet-specific error occurs
+     */
+    private void listForms(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();

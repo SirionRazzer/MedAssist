@@ -249,7 +249,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
     }
 
     @Override
-    public String getFormAsHTML(int fid, StreamSource xsl)
+    public String getFormAsHTML(int fid, InputStream xslInputStream)
             throws ParserConfigurationException, SAXException, IOException, XMLDBException {
         Document document = Utils.newDocumentInstance(null);
         String result = null;
@@ -269,7 +269,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
             Document form = Utils.newDocumentInstance(
                     new ByteArrayInputStream(formFromResource.getBytes(StandardCharsets.UTF_8)));
             
-            result = Utils.xslTransform(form, xsl);
+            result = Utils.xslTransform(form, xslInputStream);
             
             try {
                 ((EXistResource) res).freeResources();

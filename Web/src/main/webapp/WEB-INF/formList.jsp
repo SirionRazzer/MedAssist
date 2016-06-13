@@ -19,7 +19,7 @@
                 <div class="col-sm-12">
                     <ul class="list-group">
                         <c:forEach items="${forms}" var="form">
-                            <a href="Patient/printForm/<c:out value="${form[0]}" />">
+                            <a href="printForm/<c:out value="${form[0]}" />">
                                 <li class="list-group-item"><c:out value="${form[1]}" /></li>
                             </a>
                         </c:forEach>

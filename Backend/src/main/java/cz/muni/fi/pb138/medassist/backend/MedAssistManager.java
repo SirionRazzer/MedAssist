@@ -7,6 +7,7 @@ package cz.muni.fi.pb138.medassist.backend;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,13 +53,13 @@ public interface MedAssistManager {
     /**
      * Gets form with given fid and transform it to HTML page using XSL stylesheet
      * @param fid ID of form we want to show
-     * @param xsl stream source of the file that contains XSLT definition
+     * @param xslInputStream inputStream of the file that contains XSLT definition
      * @return string containing HTML page of given form
      * @throws javax.xml.parsers.ParserConfigurationException
      * @throws org.xml.sax.SAXException
      * @throws java.io.IOException
      * @throws org.xmldb.api.base.XMLDBException
      */
-    public String getFormAsHTML(int fid, StreamSource xsl) 
+    public String getFormAsHTML(int fid, InputStream xslInputStream) 
             throws ParserConfigurationException, SAXException, IOException, XMLDBException;
 }

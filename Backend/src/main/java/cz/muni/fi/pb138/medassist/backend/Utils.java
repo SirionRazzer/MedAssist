@@ -85,17 +85,18 @@ public class Utils {
      * Method that transforms given DOM document form into HTML page.
      * The transformation is defined by XSL file.
      * @param form document, we want to transform
-     * @param xsl file defining the transformation
+     * @param xslInputStream inputStream of the file defining the transformation
      * @return string containing HTML page as plain text or null in case a problem occurs
      * @throws org.xmldb.api.base.XMLDBException
      */
-    public static String xslTransform(Document form, StreamSource xsl) 
+    public static String xslTransform(Document form, InputStream xslInputStream) 
             throws XMLDBException {
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 PrintStream ps = new PrintStream(baos)){
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer xsltProc = transformerFactory.newTransformer(xsl);
+            Transformer xsltProc = transformerFactory
+                    .newTransformer(new StreamSource(xslInputStream));
             
             DOMSource source = new DOMSource(form);
             StreamResult result = new StreamResult(ps);

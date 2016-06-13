@@ -53,9 +53,6 @@ public class DoctorController extends HttpServlet {
             case "/formCreatePage":
                 request.getRequestDispatcher("/WEB-INF/formCreate.html").forward(request, response);
                 break;
-            case "/printForm":
-                doPost(request, response);
-                break;
             default:
                 listForms(request, response);
                 break;
@@ -75,9 +72,6 @@ public class DoctorController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getPathInfo();
         switch (action) {
-            case "/printForm":
-                printForm(request, response);
-                break;
             case "/createForm":
                 createForm(request, response);
                 break;
@@ -98,35 +92,8 @@ public class DoctorController extends HttpServlet {
     }
 
     /**
-     * Method showing requested form using XSL transformation
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws IOException if an I/O error occurs
-     * @throws ServletException if a servlet-specific error occurs
-     */
-    private void printForm(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        try {
-            MedAssistManagerImpl manager = getMedAssistManager();
-            manager.setCurrentDoctor(1);
-
-            //int fid = Integer.valueOf(request.getParameter("fid"));
-            int fid = 1;
-
-            StreamSource xslFileSource = new StreamSource(new File(xsl));
-            String form = manager.getFormAsHTML(fid, xslFileSource);
-            request.setAttribute("form", form);
-            request.getRequestDispatcher("/WEB-INF/1_form.jsp").forward(request, response);
-        } catch (XMLDBException | SAXException | ParserConfigurationException ex) {
-            System.err.println("Couldn't connect to the database.");
-        }
-
-    }
-
-    /**
-     * Method for creating two dimensional array of all the forms. It contains
-     * id of the form and name of the form for each form.
+     * Method for creating list of arrays of all the forms. 
+     * It contains id of the form and name of the form for each form.
      *
      * @param request servlet request
      * @param response servlet response
