@@ -3,10 +3,42 @@
     <head>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <a href="Doctor/printForm">Print form</a>
-        <a href="Doctor/formCreate">Vytváření formuláře</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-header">
+                        <h1>MedAssist<br> <small>application for medical questionnaire</small></h1>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row text-center">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Sekce pro doktory</p>
+                            <a><button class="btn btn-primary">VSTUP</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Sekce pro pacienty
+                        </div>
+                        <div class="panel-body">
+                            <p>Sekce pro pacienty</p>
+                            <a href="Doctor/formCreatePage"><button class="btn btn-primary">VSTUP</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
+
 </html>

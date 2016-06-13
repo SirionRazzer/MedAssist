@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global currentSlide */
+/* global currentSlide, xmlDoc */
 
 var questionType;
 var questionId;
@@ -58,6 +58,10 @@ $(document).ready(function () {
         });
         setOptions(getQuestionById(questionId), options);
         addOptionsHTML(questionId, options);
+    });
+
+    $("#finishForm").on('click', function () {
+        $.post('doctor/createForm', {form: xmlDoc});
     });
 
     $("#logXML").on('click', function () {
