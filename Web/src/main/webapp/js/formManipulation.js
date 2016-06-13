@@ -6,13 +6,6 @@ var currentSlide = null;
 var currentQuestion = null;
 var currentTag = null;
 
-createNewForm('vstupni form');
-addSlide('slide1', false);
-addQuestion(currentSlide, 'radiobutton', 'Jak se dnes mate?');
-addTag('odber krve');
-logXML();
-
-
 function logXML() {
     console.log(xmlDoc);
 }
