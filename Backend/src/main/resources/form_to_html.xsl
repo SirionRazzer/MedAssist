@@ -98,7 +98,8 @@
                     <xsl:if test="@type='range'">
                         <div class="form-group" type="range">                            
                             <input type="range" min="{min_val}" max="{max_val}" step="{step}" onchange="this.nextElementSibling.value = this.value"/>                          
-                            <input type="text" value="{(min_val + max_val) div 2}" oninput="this.previousElementSibling.value = this.value"/>                            
+                            
+                            <input type="text" class="form-control" value="{(min_val + max_val) div 2}" oninput="this.previousElementSibling.value = this.value"/>                            
                          
                         </div>
                     </xsl:if>
@@ -111,7 +112,7 @@
 
                     <xsl:if test="@type='date'">
                         <div class="form-group" type="date">
-                        <input type="date"/>
+                        <input type="date" class="form-control"/>
                         </div>
                     </xsl:if>                
                 </div>
