@@ -47,7 +47,7 @@ public interface MedAssistManager {
      * @return two dimensional array containing id(first row) and name(second 
      *         row) for each form.
      */
-    public String[][] findAllForms();
+    public List<String[]> findAllForms();
     
     /**
      * Gets form with given fid and transform it to HTML page using XSL stylesheet

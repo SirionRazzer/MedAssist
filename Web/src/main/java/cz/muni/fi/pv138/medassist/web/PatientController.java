@@ -8,7 +8,7 @@ package cz.muni.fi.pv138.medassist.web;
 import cz.muni.fi.pb138.medassist.backend.MedAssistManagerImpl;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -66,7 +66,7 @@ public class PatientController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getPathInfo();
         switch (action) {
-            case "/printForm":
+            case "/printForm/*":
                 printForm(request, response);
                 break;
             default:
@@ -112,9 +112,9 @@ public class PatientController extends HttpServlet {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            String[][] forms = manager.findAllForms();
+            List<String[]> forms = manager.findAllForms();
             request.setAttribute("forms", forms);
-            request.getRequestDispatcher("").forward(request, response); //TODO: write the correct page
+            request.getRequestDispatcher("/WEB-INF/formList.jsp").forward(request, response);
         } catch (SAXException | XMLDBException | ParserConfigurationException ex) {
             Logger.getLogger(DoctorController.class.getName()).log(Level.SEVERE, null, ex);
         }

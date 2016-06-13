@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,11 +28,12 @@ import org.xmldb.api.base.XMLDBException;
 
 /**
  * Controller for operations related to doctor.
+ *
  * @author Lenka
  */
 @WebServlet(name = "Doctor", urlPatterns = {"/Doctor/*"})
 public class DoctorController extends HttpServlet {
-    
+
     private static final String xsl = "src/main/resources/form_to_html.xsl";
     //private static final String xsl = "/WEB-INF/form_to_html.xsl";
 
@@ -59,7 +61,7 @@ public class DoctorController extends HttpServlet {
                 break;
         }
     }
-    
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -86,7 +88,9 @@ public class DoctorController extends HttpServlet {
     }
 
     /**
-     * Returns MedAssistManagerImpl variable that was set as attribute in InitListener class.
+     * Returns MedAssistManagerImpl variable that was set as attribute in
+     * InitListener class.
+     *
      * @return MedAssistManagerImpl object for this context
      */
     private MedAssistManagerImpl getMedAssistManager() {
@@ -95,21 +99,21 @@ public class DoctorController extends HttpServlet {
 
     /**
      * Method showing requested form using XSL transformation
-     * 
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws IOException if an I/O error occurs
      * @throws ServletException if a servlet-specific error occurs
      */
-    private void printForm(HttpServletRequest request, HttpServletResponse response) 
+    private void printForm(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            
+
             //int fid = Integer.valueOf(request.getParameter("fid"));
             int fid = 1;
-            
+
             StreamSource xslFileSource = new StreamSource(new File(xsl));
             String form = manager.getFormAsHTML(fid, xslFileSource);
             request.setAttribute("form", form);
@@ -121,19 +125,20 @@ public class DoctorController extends HttpServlet {
     }
 
     /**
-     * Method for creating two dimensional array of all the forms.
-     * It contains id of the form and name of the form for each form.
+     * Method for creating two dimensional array of all the forms. It contains
+     * id of the form and name of the form for each form.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws IOException if an I/O error occurs
      * @throws ServletException if a servlet-specific error occurs
      */
-    private void listForms(HttpServletRequest request, HttpServletResponse response) 
+    private void listForms(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         try {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            String[][] forms = manager.findAllForms();
+            List<String[]> forms = manager.findAllForms();
             request.setAttribute("forms", forms);
             request.getRequestDispatcher("").forward(request, response); //TODO: write the correct page
         } catch (SAXException | XMLDBException | ParserConfigurationException ex) {
@@ -143,26 +148,24 @@ public class DoctorController extends HttpServlet {
 
     /**
      * Method for creating a new form and storing it in the database.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws IOException if an I/O error occurs
      * @throws ServletException if a servlet-specific error occurs
      */
-    private void createForm(HttpServletRequest request, HttpServletResponse response) 
+    private void createForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (InputStream is = new ByteArrayInputStream(request.getParameter("form").getBytes());){
+        String form = Utils.formatOutput(request.getParameter("form"));
+
+        try (InputStream is = new ByteArrayInputStream(form.getBytes());) {
             MedAssistManagerImpl manager = getMedAssistManager();
             manager.setCurrentDoctor(1);
-            
-            Document form = Utils.newDocumentInstance(is);
-            
-            manager.createNewForm(form);
-            
-            listForms(request, response);
-        } catch (ParserConfigurationException 
-                | SAXException 
-                | XMLDBException  
-                | TransformerException ex) {
+
+            Document document = Utils.newDocumentInstance(is);
+
+            manager.createNewForm(document);
+        } catch (ParserConfigurationException | SAXException | XMLDBException | TransformerException ex) {
             Logger.getLogger(DoctorController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

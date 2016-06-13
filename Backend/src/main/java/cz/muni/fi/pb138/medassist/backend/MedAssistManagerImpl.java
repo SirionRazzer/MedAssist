@@ -12,7 +12,9 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringBufferInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,8 +48,10 @@ public class MedAssistManagerImpl implements MedAssistManager {
     private final Collection collection;
 
     private int currentDoctor;
-    private Document currentDocument;
-    private XMLResource currentResource;
+    private Document currentFormDocument;
+    private Document currentAnswerDocument;
+    private XMLResource currentFormResource;
+    private XMLResource currentAnswerResource;
 
     /**
      * Constructor with parameters. It sets class parameter collection as given
@@ -89,8 +93,8 @@ public class MedAssistManagerImpl implements MedAssistManager {
      *
      * @return current document
      */
-    public Document getCurrentDocument() {
-        return currentDocument;
+    public Document getCurrentFormDocument() {
+        return currentFormDocument;
     }
 
     /**
@@ -113,23 +117,31 @@ public class MedAssistManagerImpl implements MedAssistManager {
         }
         this.currentDoctor = currentDoctorID;
 
-        String file = String.format("%09d", currentDoctor) + "_form.xml";
-        this.currentResource = (XMLResource) collection.getResource(file);
-        try (InputStream is = new StringBufferInputStream((String) currentResource.getContent())) {
-            currentDocument = Utils.newDocumentInstance(is);
+        String formFile = String.format("%09d", currentDoctor) + "_form.xml";
+        String answerFile = String.format("%09d", currentDoctor) + "_answer.xml";
+        this.currentFormResource = (XMLResource) collection.getResource(formFile);
+        this.currentAnswerResource = (XMLResource) collection.getResource(answerFile);
+        try (
+                InputStream isForm = new StringBufferInputStream((String) currentFormResource.getContent());
+                InputStream isAnswer = new StringBufferInputStream((String) currentAnswerResource.getContent());
+                ) {
+            currentFormDocument = Utils.newDocumentInstance(isForm);
+            currentAnswerDocument = Utils.newDocumentInstance(isAnswer);
         }
     }
 
     /**
-     * Creates new doctorID_form.xml file and initialize root tag of this file.
+     * Creates new doctorID_form.xml and doctorID_answer.xml files 
+     * and initialize root tag of these files.
      * DoctorID is next unused integer from formFiles list. In generated file
      * name, doctor id has exactly 9 digits. If original id has less digits,
      * zeros are added in front of it (e.g. 000000001_form.xml).
      *
-     * Changes class attributes: -> sets currentDoctor as generated doctorID ->
-     * creates new resource within the collection, sets it as currentResource ->
-     * sets currentDocument as DOM Document instance of currentResource -> adds
-     * new doctorID to the list of
+     * Changes class attributes: 
+     * -> sets currentDoctor as generated doctorID 
+     * -> creates new resource within the collection, sets it as currentResource 
+     * -> sets currentFormDocument as DOM Document instance of currentResource 
+     * -> adds new doctorID to the list of
      *
      * @return new generated doctorID
      * @throws Exception in case any error occurs while performing this action
@@ -139,6 +151,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
             throws Exception {
         int doctorID = doctors.size() + 1;
         String formFile = String.format("%09d", doctorID) + "_form.xml";
+        String answerFile = String.format("%09d", doctorID) + "_answer.xml";
         doctors.add(doctorID);
 
         Document document = Utils.newDocumentInstance(null);
@@ -150,17 +163,23 @@ public class MedAssistManagerImpl implements MedAssistManager {
         DOMSource source = new DOMSource(document);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        StreamResult result = new StreamResult(ps);
+        PrintStream psForm = new PrintStream(baos);
+        StreamResult result = new StreamResult(psForm);
 
         transformer.transform(source, result);
 
-        ps.flush();
+        psForm.flush();
 
         try {
-            currentResource = (XMLResource) collection.createResource(formFile, "XMLResource");
-            currentResource.setContent(baos.toString());
-            collection.storeResource(currentResource);
+            currentFormResource = (XMLResource) collection.createResource(formFile, "XMLResource");
+            currentAnswerResource = (XMLResource) collection.createResource(answerFile, "XMLResource");
+            
+            currentFormResource.setContent(baos.toString());
+            currentAnswerResource.setContent(baos.toString());
+            
+            collection.storeResource(currentFormResource);
+            collection.storeResource(currentAnswerResource);
+            
             setCurrentDoctor(doctorID);
 
         } catch (XMLDBException e) {
@@ -171,11 +190,11 @@ public class MedAssistManagerImpl implements MedAssistManager {
 
     /**
      * Creates new form file for the doctor, that is currently set. Form must be
-     * in DOM Document format and must return correct xml (please check
-     * singleFormSchema.xsd in resources). Root node of the correct form is
-     * appended at the end of currentDocument. Content of the currentResource is
-     * than changed to updated document and after that uploaded to the
-     * collection.
+ in DOM Document format and must return correct xml (please check
+ singleFormSchema.xsd in resources). Root node of the correct form is
+ appended at the end of currentFormDocument. Content of the currentResource is
+ than changed to updated document and after that uploaded to the
+ collection.
      *
      * @param form correct xml file represented by DOM Document
      * @throws TransformerException if an unrecoverable error occurs during the
@@ -184,21 +203,21 @@ public class MedAssistManagerImpl implements MedAssistManager {
     @Override
     public void createNewForm(Document form) throws TransformerException {
 
-        if (currentDocument == null) {
+        if (currentFormDocument == null) {
             throw new NullPointerException("No current document is set within the MedAssistManager.");
         }
 
-        int fid = currentDocument.getElementsByTagName("form").getLength() + 1;
+        int fid = currentFormDocument.getElementsByTagName("form").getLength() + 1;
 
-        Node documentRoot = currentDocument.getDocumentElement();
-        Element formElement = (Element) currentDocument.adoptNode(form.getFirstChild());
+        Node documentRoot = currentFormDocument.getDocumentElement();
+        Element formElement = (Element) currentFormDocument.adoptNode(form.getFirstChild());
         formElement.setAttribute("fid", String.valueOf(fid));
 
         documentRoot.appendChild(formElement);
 
         try {
-            currentResource.setContent(Utils.convertDocumentToString(currentDocument));
-            collection.storeResource(currentResource);
+            currentFormResource.setContent(Utils.convertDocumentToString(currentFormDocument));
+            collection.storeResource(currentFormResource);
         } catch (XMLDBException ex) {
             Logger.getLogger(MedAssistManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -210,23 +229,21 @@ public class MedAssistManagerImpl implements MedAssistManager {
      * @throws XMLDBException if any error occurs while accessing the database
      */
     public void freeResource() throws XMLDBException {
-        if (currentResource != null) {
-            ((EXistResource) currentResource).freeResources();
+        if (currentFormResource != null) {
+            ((EXistResource) currentFormResource).freeResources();
         }
     }
 
     @Override
-    public String[][] findAllForms() {
-        NodeList formsList = currentDocument.getElementsByTagName("form");
+    public List<String[]> findAllForms() {
+        NodeList formsList = currentFormDocument.getElementsByTagName("form");
         int formCount = formsList.getLength();
-        String[][] forms = new String[formCount][2];
+        List<String[]> forms = new ArrayList();
         for (int i = 0; i < formCount; i++) {
             Element form = (Element) formsList.item(i);
-            forms[i][0] = form.getAttribute("fid");
-            forms[i][1] = form
-                    .getElementsByTagName("name") //finds child nodes with tag "name"
-                    .item(0) //the first item from the node list is the tag of form node
-                    .getTextContent(); //gets the text value of the node "name"
+            String[] newForm = {form.getAttribute("fid"), 
+                    form.getElementsByTagName("name").item(0).getTextContent()};
+            forms.add(newForm);
         }
         return forms;
     }
@@ -252,7 +269,7 @@ public class MedAssistManagerImpl implements MedAssistManager {
             Document form = Utils.newDocumentInstance(
                     new ByteArrayInputStream(formFromResource.getBytes(StandardCharsets.UTF_8)));
             
-            result = Utils.XSLTransform(form, xsl);
+            result = Utils.xslTransform(form, xsl);
             
             try {
                 ((EXistResource) res).freeResources();

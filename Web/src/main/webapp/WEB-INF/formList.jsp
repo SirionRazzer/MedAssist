@@ -5,8 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,11 +15,11 @@
     </head>
     <body>
         <div class="container">
-            <div clas="row">
+            <div class="row">
                 <div class="col-sm-12">
                     <ul class="list-group">
                         <c:forEach items="${forms}" var="form">
-                            <a href="Patient/printForm/<c:out value='${form[0]}' />">
+                            <a href="Patient/printForm/<c:out value="${form[0]}" />">
                                 <li class="list-group-item"><c:out value="${form[1]}" /></li>
                             </a>
                         </c:forEach>

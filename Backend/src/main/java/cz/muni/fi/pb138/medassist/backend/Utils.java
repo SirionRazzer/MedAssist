@@ -6,7 +6,6 @@
 package cz.muni.fi.pb138.medassist.backend;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -14,13 +13,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
@@ -89,22 +89,18 @@ public class Utils {
      * @return string containing HTML page as plain text or null in case a problem occurs
      * @throws org.xmldb.api.base.XMLDBException
      */
-    public static String XSLTransform(Document form, StreamSource xsl) 
+    public static String xslTransform(Document form, StreamSource xsl) 
             throws XMLDBException {
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 PrintStream ps = new PrintStream(baos)){
-            TransformerFactory transformerFactory = TransformerFactoryImpl.newInstance();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer xsltProc = transformerFactory.newTransformer(xsl);
             
             DOMSource source = new DOMSource(form);
             StreamResult result = new StreamResult(ps);
             
             xsltProc.transform(source, result);
-            
-            xsltProc.transform(
-                    source, 
-                    new StreamResult(new File("src/main/resources/form_html.html")));
             
             ps.flush();
             
@@ -114,4 +110,20 @@ public class Utils {
         }
     }
     
+    /**
+     * Helper method that replaces char sequences from frontEnd JS files
+     * to correct characters.
+     * @param source source string we want to repair
+     * @return correct string representation of given string
+     */
+    public static String formatOutput(String source) {
+        String result = source
+                .replace("%3C", "<")
+                .replace("%3E", ">")
+                .replace("%2F", "/")
+                .replace("%3D", "=")
+                .replace("+", " ")
+                .replace("%22", "\"");
+        return result;
+    }
 }

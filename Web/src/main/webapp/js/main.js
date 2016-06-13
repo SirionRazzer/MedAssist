@@ -64,9 +64,9 @@ $(document).ready(function () {
 //        $.post('doctor/createForm', {form: xmlDoc});
         $.ajax({
             method: "POST",
-            url: "Doctor/createForm",
+            url: "createForm",
             data: {
-                form: xmlDoc
+                form: new XMLSerializer().serializeToString(xmlDoc.documentElement)
             }
         });
     });

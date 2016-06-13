@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,19 +52,20 @@ public class BackendDemo {
             }
 
             medAssistManager = new MedAssistManagerImpl(col);
-            medAssistManager.setCurrentDoctor(1);
+            int doctorID = medAssistManager.createNewFormXML();
+            //medAssistManager.setCurrentDoctor(1);
 
-            StreamSource xslFile = new StreamSource(new File(xsl));
+            //StreamSource xslFile = new StreamSource(new File(xsl));
 
-            String html = medAssistManager.getFormAsHTML(1, xslFile);
+            //String html = medAssistManager.getFormAsHTML(1, xslFile);
 
-            System.out.println(html);
+            //System.out.println(html);
 
-            String[][] forms = medAssistManager.findAllForms();
+            List<String[]> forms = medAssistManager.findAllForms();
 
-            for (int i = 0; i < forms.length; i++) {
-                System.out.println(forms[i][0] + ": " + forms[i][1]);
-            }
+            //for (int i = 0; i < forms.length; i++) {
+            //    System.out.println(forms[i][0] + ": " + forms[i][1]);
+            //}
 
         } catch (XMLDBException | NullPointerException e) {
             System.err.println("XML:DB Exception occurred " + e.getMessage());

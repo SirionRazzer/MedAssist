@@ -22,11 +22,6 @@
             <artifactId>existdb-core</artifactId>
             <version>2.1</version>
         </dependency>
-        <dependency>
-            <groupId>xalan</groupId> 
-            <artifactId>xalan</artifactId> 
-            <version>2.3.1</version> 
-        </dependency>
     </dependencies>
     <name>MedAssist-Backend</name>
 </project>
