@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>
+            MedAssist - závěrečný report
+        </title>
+        <author>
+            <firstname>
+                Petr
+            </firstname>
+            <surname>
+                Révay
+            </surname>
+        </author>
+        <pubdate>
+        14.6.2016
+        </pubdate>
+    </articleinfo>
+    <section>
+        <title>
+        Návrh aplikace
+        </title>
+        <para>
+        Návrh byl konzultován spíše celým týmem, než jednotlivci. Aplikaci jsme se rozhodli vyvíjet jako webovou za použití MVC architektury, která nám umožnila během vývoje tvořit dobře strukturovaný a čitelný kód. Mým hlavním přínosem během návrhu aplikace bylo vysvětlení MVC architektury, s kterou jsem měl již oproti ostatním členům týmu zkušenost, a předání znalosti z oblasti vývoje webových aplikací. V této fázi jsme také skupinově rozhodovali o podobě XML dokumentů pro ukládáná persisentních dat aplikace. Na základě této domluvy poté vznikal backend aplikace a XML schémata pro XML dokumenty naší databáze.
+        </para>
+    </section>
+    <section>
+        <title>
+        Tvorba aplikace
+        </title>
+        <para>
+            Mou úlohou při tvorbě aplikace byl zejména frontendový vývoj a návrh aplikace. Na frontendovém vývoji jsem měl na starost rozhraní pro vytváření lékařských dotazníků, které bylo realizováno pomocí klasických webových technologií, HTML, CSS, JS, doplněných o XML.
+        </para>
+    </section>
+    <section>
+        <title>
+        Tvorba grafického rozhraní
+        </title>
+        <para>
+        Tvorba grafického rozhraní byla z části mou úlohou, ale pouze v částech aplikace, kde nebylo rozhraní vytvořeno pomocí transformace XML na HTML.
+        </para>
+    </section>
+    <section>
+        <title>
+        Dokumentace
+        </title>
+        <para>
+        Na dokumentaci jsem se vůbec nepodílel.
+        </para>
+    </section>
+    <section>
+        <title>
+        Ladění, testování a optimalizace
+        </title>
+        <para>
+        Testování aplikace probíhalo hlavně zkoušením funkcionality aplikace s využíváním webovho rozhraní. Jednotkové testy nebyly do aplikace zahrnuty.
+        </para>
+    </section>
+    <section>
+        <title>
+        Použité technologie
+        </title>
+        <para>
+        Já osobně jsem v aplikaci používal zejména webové technologie a to HTML5, CSS a Boostrap, JS a jQuery. Zároveň jsem pracoval s XML a DOM manipulací.
+        </para>
+    </section>
+    <section>
+        <title>
+        Závěr
+        </title>
+        <para>
+        Výsledkem mé práce je fungující rozhraní, pomocí kterého může doktor vytvářet lékařské dotazníky.
+        </para>
+    </section>
+</article>
