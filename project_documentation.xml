@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 <book>
-    <info>
-        <title>Documentation of MedAssist project</title>
-        <publisher>
-            <publishername>Tomáš Soukal</publishername>
-        </publisher>
-        <edition>1.0</edition>
-    </info>
+    <title>MedAssist documentation</title>
     <part>
-        <title>About project</title>
+        <title>Project summary</title>
+        <subtitle>About project</subtitle>
         <chapter>
             <title>Introduction</title>
             <sect1>
                 <title>Project task</title>
-                <para>Your task is to prepare the system for creating, presenting and evaluating simple questionnaires. Questionnaire ought to be easily fillable on a mobile device at the doctor's office. The doctor can manage these and evaluate them in the desktop client. The questionnaire consists of a few slides with questions based on conditional pass. Visual part can be fully generated (checkbox, combobox, slider, text).</para>            
+                <para>Your task is to prepare the system for creating, presenting and evaluating simple questionnaires. Questionnaire ought to be easily fillable on a mobile device at the doctor's office. The doctor can manage these and evaluate them in the desktop client. The questionnaire consists of a few slides with questions based on conditional pass. Visual part can be fully generated (checkbox, combobox, slider, text).</para>
             </sect1>
             <sect1>
                 <title>Subject</title>
@@ -25,19 +20,64 @@
                 <para>Júlia Sabanošová</para>
                 <para>Lenka Šmitalová</para>
                 <para>Petr Révay</para>
-                <para>Tomáš Soukal</para>                  
-            </sect1>   
+                <para>Tomáš Soukal</para>
+            </sect1>
             <sect1>
-                <title>Supervisors</title>                   
-                <para>Marek Grác</para>
-                <para>Luděk Bártek</para>
-                <para>Tomáš Pitner</para>
+                <title>Supervisors</title>
+                <para>Mgr. Marek Grác, Ph.D.</para>
+                <para>Mgr. Luděk Bártek Ph.D.</para>
+                <para>doc. RNDr. Tomáš Pitner, Ph.D.</para>
             </sect1>
             <sect1>
                 <title>Used project environments</title>
                 <para>NetBeans</para>
-                <para>IntelliJIdea</para>
-            </sect1>         
+            </sect1>
+            <sect1>
+                <title>Used technologies</title>
+                <para>eXist-db 3.0</para>
+                <para>Java SE 8</para>
+                <para>Tomcat 7</para>
+                <para>JavaScript</para>
+                <para>jQuery</para>
+                <para>HTML5</para>
+                <para>CSS3</para>
+                <para>Bootstrap 3, 4</para>
+            </sect1>
+            <sect1>
+                <title>Used libraries</title>
+                <para>Maven 3.3.3</para>
+            </sect1>
+        </chapter>
+    </part>
+    <part>
+        <title>Project structure</title>
+        <subtitle>Basic concept</subtitle>
+        <chapter>
+            <title>Diagram</title>
+            <para>This picture describes the logic structure of project</para>
+            <sect1>
+                <title>Classes and logic parts</title>
+                <figure>
+                    <title>MedAssist Diagram</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="http://i64.tinypic.com/2s6n58w.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </sect1>
+            <sect1>
+                <title>Editor</title>
+                <para>This is where doctor creates and manages forms.</para>
+                <figure>
+                    <title>Editor view</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="http://i64.tinypic.com/ivllw2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </sect1>
         </chapter>
     </part>
 </book>
