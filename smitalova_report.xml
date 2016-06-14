@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>
+            ODSKartW - Závěrečný report
+        </title>
+        <author>
+            <firstname>
+                Lenka
+            </firstname>
+            <surname>
+                Šmitalová
+            </surname>
+        </author>
+        <pubdate>
+        14.6.2016
+        </pubdate>
+    </articleinfo>
+    <section>
+        <title>
+        Návrh aplikácie
+        </title>
+        <para>
+			Na prvotnom návrhu aplikácie sa podieľal spoločne celý tým. Pre ukladanie dát sme sa rozhodli používať NoSQL databázu eXistdb, ktorá umožňuje 
+			prácu s XML súbormi a umožnuje používanie XPath výrazou. Spoločne sme si urobili predstavu o tom, ako budú vyzerať naše XML súbory, a určili 
+			aké funkcie by mala aplikácia splňovať.
+        </para>
+    </section>
+    <section>
+        <title>
+        Tvorba aplikácie
+        </title>
+        <para>
+            Mojou hlavnou úlohou bolo navrhnutie a implementovanie back-endu a základou webovej aplikácie. Na implementáciu backéndu som využila Maven
+			Java Application a ako základ pre webovú aplikáciu som použila Maven Web Application. Pre prácu s databázou som využila jednu externú knižnicu,
+			konkrétne existdb-core-2.1.jar, a jeden repozitár,konkrétne "https://raw.github.com/eXist-db/mvn-repo/master/".
+        </para>
+    </section>
+    <section>
+        <title>
+        Tvorba grafického rozhrania
+        </title>
+        <para>
+			Na tvorbe grafického rozhrania som sa nepodielala, mojou úlohou bolo len sprístupniť potrebné funkcie pre poskytovanie dát z databázy.
+        </para>
+    </section>
+    <section>
+        <title>
+        Dokumentace
+        </title>
+        <para>
+			Na dokumentácii k projektu som sa nepodielala, v aplikáciách som sa však snažila udržiavať prehľadný JavaDoc.
+        </para>
+    </section>
+    <section>
+        <title>
+        Použité technologie
+        </title>
+        <para>
+			IDE NetBeans, GitHub, Java 8, Apache Tomcat 8, eXist-DB, Maven.
+        </para>
+    </section>
+    <section>
+        <title>
+        Závěr
+        </title>
+        <para>
+			Tento projekt mi pomohol lepšie pochopiť Maven Web Application, ich funkčnosť a prácu s nimi. Naučila som sa využívať extenú databázu (eXist)
+			v rámci projektu a lepšie pracovať s dátami xml. Ako plus zároveň vnímam aj to, že tento projekt bol tímový, a tým pádom som mala možnosť
+			vyskúšať si spoluprácu s viacerými ľuďmi na jednom projekte.
+        </para>
+    </section>
+</article>
