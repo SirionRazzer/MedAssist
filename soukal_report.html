@@ -1,0 +1,47 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>MedAssist - Záv&#283;re&#269;ný report</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article"><div class="titlepage"><div><div><h2 class="title"><a name="idm139688294779664"></a>
+            MedAssist - Záv&#283;re&#269;ný report
+        </h2></div><div><div class="author"><h3 class="author"><span class="firstname">
+                Tomá&#353;
+            </span> <span class="surname">
+                Soukal
+            </span></h3></div></div><div><p class="pubdate">
+        14.06.2016
+        </p></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#idm139688294776208">
+        Obecn&#283;
+        </a></span></dt><dt><span class="section"><a href="#idm139688294092016">
+        Transformace
+        </a></span></dt><dt><span class="section"><a href="#idm139688294090224">
+        Vytvo&#345;ení souboru s odpov&#283;&#271;mi
+        </a></span></dt><dt><span class="section"><a href="#idm139688294087360">
+        Dokumentace, wiki, www stránky
+        </a></span></dt><dt><span class="section"><a href="#idm139688294085824">
+        Pou&#382;ité technologie
+        </a></span></dt><dt><span class="section"><a href="#idm139688294084672">
+        Záv&#283;r
+        </a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294776208"></a>
+        Obecn&#283;
+        </h2></div></div></div><p>
+         Návrh aplikace za&#269;al navr&#382;ením struktury na ukládání formulá&#345;&#367; ve formátu XML, p&#345;i kterém jsme se v&#353;ichni podíleli rovným dílem. V následující fázi jsem organizoval setkání a komunikaci mezi &#269;leny týmu. Vlastní prací na aplikaci pak bylo vytvo&#345;ení transformace XML formulá&#345;e na HTML formulá&#345; vhodný pro vypl&#328;ování pacientem a zp&#283;tné vrácení odpov&#283;dí pomocí JavaScriptu. Mimo to jsem si vzal na starost vytvo&#345;ení wiki stránek a www stránek.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294092016"></a>
+        Transformace
+        </h2></div></div></div><p>
+            P&#345;i vytvá&#345;ení HTML formulá&#345;e jsem pou&#382;il XSL transformaci. Výsledný dokument jsem styloval s ohledem na pou&#382;ití na mobilních za&#345;ízeních pomocí Bootstrapu, který byl pro m&#283; novinkou. Tento formulá&#345; sestává z více typ&#367; otázek (textbox, checkbox, radiogroup, range, date). Zajímavým problémem bylo vhodné o&#353;títkování t&#283;chto element&#367; pro následující vy&#269;tení odpov&#283;dí. Z pohledu u&#382;ivatele se jedná o jednodu&#353;e vyplnitelný formulá&#345; bez zbyte&#269;ných nástrah, který se na konci v&#353;ech slajd&#367; ode&#353;le stiskem tla&#269;ítka.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294090224"></a>
+        Vytvo&#345;ení souboru s odpov&#283;&#271;mi
+        </h2></div></div></div><p>
+            Po vypln&#283;ní dotazníku a stisku odesílacího tla&#269;ítka je nutné sestavit data do validního formátu, který následn&#283; jsme schopni ulo&#382;it do databáze. Vzhledem k r&#367;znorodosti odpov&#283;dí bylo vzhledem k na&#353;im technickým mo&#382;nostem nejp&#345;ístupn&#283;j&#353;í pou&#382;ít na stránce JavaScript. Proto&#382;e jsem s JavaScriptem nikdy nepracoval a cht&#283;l jsem si ho alespo&#328; zlehka zkusit, vzal jsem si tento úkol na starost.
+        </p><p>
+            Z HTML formulá&#345;e jsem data získával pomocí HTML DOMu. V této fázi se ukázal být správný p&#345;edchozí návrh HTML formulá&#345;e, díky &#269;emu&#382; se mi relativn&#283; lehce získávaly data. Men&#353;ím o&#345;í&#353;kem bylo vhodné generování ID vícenásobných objekt&#367;, kdy jsem musel do transformace p&#345;idat generování unikátních hodnot. Sestavený dokument je validní odpov&#283;&#271; odpovídající schématu, které psala Júlie.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294087360"></a>
+        Dokumentace, wiki, www stránky
+        </h2></div></div></div><p>
+        Dokumentaci, wiki a www stránky jsem psal pouze já, nejvíc jsem se soust&#345;edil na kvalitní www stránky.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294085824"></a>
+        Pou&#382;ité technologie
+        </h2></div></div></div><p>
+        NetBeans, GitHub, JavaScript, HTML, Bootstrap.
+        </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idm139688294084672"></a>
+        Záv&#283;r
+        </h2></div></div></div><p>
+        Díky projektu jsem se nau&#269;il spolupracovat v týmu, pracovat s JavaScriptem a Bootstrapem a poprvé zkusil pracovat na reálném projektu na v&#353;ech úrovních od po&#269;átku vývoje. 
+        </p></div></div></body></html>

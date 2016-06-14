@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>
+            MedAssist - Závěrečný report
+        </title>
+        <author>
+            <firstname>
+                Tomáš
+            </firstname>
+            <surname>
+                Soukal
+            </surname>
+        </author>
+        <pubdate>
+        14.06.2016
+        </pubdate>
+    </articleinfo>
+    <section>
+        <title>
+        Obecně
+        </title>
+        <para>
+         Návrh aplikace začal navržením struktury na ukládání formulářů ve formátu XML, při kterém jsme se všichni podíleli rovným dílem. V následující fázi jsem organizoval setkání a komunikaci mezi členy týmu. Vlastní prací na aplikaci pak bylo vytvoření transformace XML formuláře na HTML formulář vhodný pro vyplňování pacientem a zpětné vrácení odpovědí pomocí JavaScriptu. Mimo to jsem si vzal na starost vytvoření wiki stránek a www stránek.
+        </para>
+    </section>
+    <section>
+        <title>
+        Transformace
+        </title>
+        <para>
+            Při vytváření HTML formuláře jsem použil XSL transformaci. Výsledný dokument jsem styloval s ohledem na použití na mobilních zařízeních pomocí Bootstrapu, který byl pro mě novinkou. Tento formulář sestává z více typů otázek (textbox, checkbox, radiogroup, range, date). Zajímavým problémem bylo vhodné oštítkování těchto elementů pro následující vyčtení odpovědí. Z pohledu uživatele se jedná o jednoduše vyplnitelný formulář bez zbytečných nástrah, který se na konci všech slajdů odešle stiskem tlačítka.
+        </para>
+    </section>
+    <section>
+        <title>
+        Vytvoření souboru s odpověďmi
+        </title>
+        <para>
+            Po vyplnění dotazníku a stisku odesílacího tlačítka je nutné sestavit data do validního formátu, který následně jsme schopni uložit do databáze. Vzhledem k různorodosti odpovědí bylo vzhledem k našim technickým možnostem nejpřístupnější použít na stránce JavaScript. Protože jsem s JavaScriptem nikdy nepracoval a chtěl jsem si ho alespoň zlehka zkusit, vzal jsem si tento úkol na starost.
+        </para>
+        <para>
+            Z HTML formuláře jsem data získával pomocí HTML DOMu. V této fázi se ukázal být správný předchozí návrh HTML formuláře, díky čemuž se mi relativně lehce získávaly data. Menším oříškem bylo vhodné generování ID vícenásobných objektů, kdy jsem musel do transformace přidat generování unikátních hodnot. Sestavený dokument je validní odpověď odpovídající schématu, které psala Júlie.
+        </para>
+    </section>
+    <section>
+        <title>
+        Dokumentace, wiki, www stránky
+        </title>
+        <para>
+        Dokumentaci, wiki a www stránky jsem psal pouze já, nejvíc jsem se soustředil na kvalitní www stránky.
+        </para>
+    </section>
+    <section>
+        <title>
+        Použité technologie
+        </title>
+        <para>
+        NetBeans, GitHub, JavaScript, HTML, Bootstrap.
+        </para>
+    </section>
+    <section>
+        <title>
+        Závěr
+        </title>
+        <para>
+        Díky projektu jsem se naučil spolupracovat v týmu, pracovat s JavaScriptem a Bootstrapem a poprvé zkusil pracovat na reálném projektu na všech úrovních od počátku vývoje. 
+        </para>
+    </section>
+</article>
