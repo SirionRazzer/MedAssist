@@ -19,13 +19,137 @@
     </section>
 
     <section class="main-content">
-      <p>AUTHORS: Tomáš Soukal, Petr Révay, Júlia Sabanošová, Lenka Šmitalová</p>
+<h2>
+<a id="toc" class="anchor" href="#toc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Table of Contents</h2>
+<ul>
+  <li><a href="#Authors">Authors</a></li>
+  <li><a href="#Supervisors">Supervisors</a></li>
+  <li><a href="#Task">Task</a></li>
+  <li><a href="#Concept">Concept</a></li>
+  <li><a href="#Environments">Used environments</a></li>
+  <li><a href="#Technologies">Technologies</a></li>
+  <li><a href="#Libraries">Libraries</a></li>
+  <li><a href="#Reports">Final reports</a></li>
+  <li><a href="#State">Current state</a></li>
+  <li><a href="#Database">Database</a></li>
+  <li><a href="#Backend">Backend</a></li>
+  <ul>
+    <li><a href="#MedAssistManager">MedAssistManager</a></li>
+    <li><a href="#Utils">Utils</a></li>
+  </ul>  
+  <li><a href="#Frontend">Frontend</a></li>
+   <ul>
+    <li><a href="#InitListener">InitListener</a></li>
+    <li><a href="#DoctorController">DoctorController</a></li>
+    <li><a href="#PatientController">PatientController</a></li>
+  </ul>  
+  <li><a href="#Doctor">Doctor</a></li>
+  <li><a href="#Patient">Patient</a></li>
+</ul>
+<hr/>
+<h2>
+<a id="Authors" class="anchor" href="#authors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+      <p>Tomáš Soukal, Petr Révay, Júlia Sabanošová, Lenka Šmitalová</p>
 
-<h1>
-<a id="this-is-the-app-concept" class="anchor" href="#this-is-the-app-concept" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is the project current state?</h1>
+<h2>
+<a id="Supervisors" class="anchor" href="#supervisors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supervisors</h2>
+<ul>
+  <li>Mgr. Marek Grác, Ph.D.</li>
+  <li>Mgr. Luděk Bártek, Ph.D.</li>
+  <li>doc. RNDr. Tomáš Pitner, Ph.D.</li>
+</ul>
+
+<h2>
+<a id="Task" class="anchor" href="#task" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Task</h2>
+<p>Your task is to prepare the system for creating, presenting and evaluating simple questionnaires. Questionnaire ought to be easily fillable on a mobile device at the doctor's office. The doctor can manage these and evaluate them in the desktop client. The questionnaire consists of a few slides with questions based on conditional pass. Visual part may be fully generated (checkbox, combobox, slider, text).</p>
+
+
+<h2>
+<a id="Concept" class="anchor" href="#concept" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concept</h2>
+<a href="concept.html">How we initially projected this project?</a>
+
+<h2>
+<a id="Environments" class="anchor" href="#environments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Used environments</h2>
+<ul>
+  <li>NetBeans IDE 8.1</li>
+</ul>
+
+<h2>
+<a id="Technologies" class="anchor" href="#technologies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Used technologies</h2>
+<ul>
+  <li>eXist-db 3.0</li>
+  <li>Java SE 8</li>
+  <li>Tomcat 7</li>
+  <li>JavaScript</li>
+  <li>jQuery</li>
+  <li>HTML5</li>
+  <li>CSS3</li>
+  <li>Bootstrap 3, 4</li>
+</ul>
+
+<h2>
+<a id="Libraries" class="anchor" href="#libraries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Used libraries</h2>
+<ul>
+  <li>Maven 3.3.3</li>
+</ul>
+
+
+<h2>
+<a id="Reports" class="anchor" href="#reports" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Final reports</h2>
+<ul>
+  <a href="https://github.com/SirionRazzer/MedAssist/blob/master/soukal_report.html"><li>Tomáš Soukal</li></a>
+  <a href="https://github.com/SirionRazzer/MedAssist/blob/master/revay_report.html"><li>Petr Révay</li></a>
+  <a href="https://github.com/SirionRazzer/MedAssist/blob/master/sabanosova_report.html"><li>Júlia Sabanošová</li></a>
+  <a href="https://github.com/SirionRazzer/MedAssist/blob/master/smitalova_report.html"><li>Lenka Šmitalová</li></a>
+</ul>
+<h2>
+<a id="State" class="anchor" href="#state" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How does it look like?</h2>
 
 <p>Let's start with the diagram of project logic.</p>
 <img border="0" alt="MedAssist project diagram" src="appStructure.png" width="600"/>
+<p>You can see the blueish backbone of the project. We will comment all necessary parts in the bottom-up order.</p>
+      
+<h2>
+<a id="Database" class="anchor" href="#database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database</h2>
+<p>As the database we have chosen <a href="http://exist-db.org/exist/apps/homepage/index.html">exist-db 3.0</a>. You have to install this database prior to next steps. We use this database for storing blank forms and patients' answers to these forms. Make sure the database is running.</p>
+
+<h2>
+<a id="Backend" class="anchor" href="#backend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backend</h2>
+<p>The backend consists of Utils.java and MedAssistManager.java classes. There are also schemas for the validation of forms and answers.</p>
+<h3>
+<a id="MedAssistManager" class="anchor" href="#medmanag" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MedAssistManager</h3>
+<p>This class provides list of doctors identified by their number IDs, createNewFormXML() for creating empty file, createNewForm() for creating new form for the doctor, findAllForms() for finding all forms belonging to the doctor and getFormAsHTML() for the returning of required form as HTML. For more precise documentation check please the JavaDoc.</p>
+<h3>
+<a id="Utils" class="anchor" href="#utils" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utils</h3>
+<p>This class provides just helping methods. Provided classes are newDocumentInstance(), convertDocumentToString(), xslTransform(), formatOutput().</p>
+
+
+
+<h2>  
+<a id="Frontend" class="anchor" href="#frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Frontend</h2>
+<p>The frontend consists of DoctorController, PatientController and InitListener classes.</p>
+<h3>
+<a id="InitListener" class="anchor" href="#initlistener" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>InitListener</h3>
+<p>This class is used for initializing context of the application and implements ServletContextListener. You have to <strong>set proper URI</strong> variable there (default: xmldb:exist://localhost:8899/exist/xmlrpc/db) where the database files will be located! This class provides methods for setting the context of the servlet and helper function prepareCollection() for connecting to the database.</p>
+
+<h3>
+<a id="DoctorController" class="anchor" href="#doccontrol" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DoctorController</h3>
+<p>This is the controller for operations related to the doctor. Methods provided are doGet() for handling HTTP GET method, doPost() for handling HTTP POST method, listForms() for creating list of arrays of all forms and createForm() for creating new form and storing it in the database.  For more precise documentation check please the JavaDoc.</p>
+
+<h3>
+<a id="PatientController" class="anchor" href="#patcontrol" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PatientController</h3>
+<p>Methods provided in this class are doGet() and doPost() with similar usage as in the DoctorController, printForm() for showing requested form using XSL transformation and listForms() for creating list of arrays of all the forms.</p>
+
+
+
+<h2>  
+<a id="Doctor" class="anchor" href="#doctor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Doctor</h2>
+<img border="0" alt="Editor" src="editor.png" width="600"/>
+<p>Editor is created with JavaScript, more precisely formManipulation.js and main.js.</p>
+<h2>  
+<a id="Patient" class="anchor" href="#patient" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Patient</h2>
+<img border="0" alt="Editor" src="patient_form.png" width="600"/>
+<p>Form is delivered as HTML, after clicking the Submit button createAnswerXML.js creates answer document in the answer.xml format.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/SirionRazzer/MedAssist">Medassist</a> is maintained by <a href="https://github.com/SirionRazzer">SirionRazzer</a>.</span>
